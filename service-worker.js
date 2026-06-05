@@ -1,4 +1,4 @@
-const CACHE_NAME = "precision-reels-v3";
+const CACHE_NAME = "precision-reels-v4";
 const APP_SHELL = [
   "/styles.css",
   "/script.js",
