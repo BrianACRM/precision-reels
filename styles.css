@@ -132,7 +132,7 @@ img {
 .inventory-grid {
   display: grid;
   gap: clamp(20px, 3vw, 38px);
-  grid-template-columns: repeat(auto-fit, minmax(245px, 285px));
+  grid-template-columns: repeat(auto-fit, minmax(245px, 260px));
   justify-content: center;
   margin: 0 auto;
   max-width: 1240px;
@@ -677,8 +677,9 @@ dd {
   }
 
   .inventory-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
     justify-content: stretch;
+    max-width: 560px;
   }
 
   .seo-copy {
@@ -731,16 +732,28 @@ dd {
   }
 
   .inventory-grid {
-    gap: 30px 18px;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    grid-template-columns: minmax(0, 1fr);
+    max-width: none;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .inventory-card {
+    padding: 12px 12px 15px;
   }
 
   .inventory-card h2 {
-    font-size: 1rem;
+    font-size: 1.08rem;
   }
 
-  .card-note {
-    font-size: 0.82rem;
+  .card-fields div {
+    gap: 2px 8px;
+    grid-template-columns: 72px minmax(0, 1fr);
+  }
+
+  .card-fields dd {
+    font-size: 0.9rem;
   }
 
   dl div {
