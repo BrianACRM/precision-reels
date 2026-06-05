@@ -682,12 +682,26 @@ dd {
     max-width: 560px;
   }
 
+  .card-fields div {
+    grid-template-columns: 86px minmax(0, 1fr);
+  }
+
+  .card-fields div:nth-child(4) {
+    grid-template-columns: 1fr;
+  }
+
+  .card-fields div:nth-child(4) dd {
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
   .seo-copy {
     grid-template-columns: 1fr;
   }
 
   .detail-panel {
     grid-template-columns: 1fr;
+    padding-top: 18px;
   }
 
   .contact-layout {
@@ -695,14 +709,30 @@ dd {
   }
 
   .detail-gallery {
-    display: flex;
-    grid-row: 2;
-    overflow-x: auto;
+    display: grid;
+    gap: 10px;
+    grid-row: 3;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    overflow: visible;
   }
 
   .detail-thumb {
-    flex: 0 0 72px;
-    height: 72px;
+    aspect-ratio: 1;
+    height: auto;
+  }
+
+  .close-detail {
+    justify-self: end;
+    position: static;
+  }
+
+  .detail-image {
+    grid-row: 2;
+    width: 100%;
+  }
+
+  .detail-copy {
+    grid-row: 4;
   }
 }
 
@@ -748,12 +778,12 @@ dd {
   }
 
   .card-fields div {
-    gap: 2px 8px;
-    grid-template-columns: 72px minmax(0, 1fr);
+    gap: 4px;
+    grid-template-columns: 1fr;
   }
 
   .card-fields dd {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
   }
 
   dl div {
