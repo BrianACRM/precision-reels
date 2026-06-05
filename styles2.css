@@ -20,9 +20,9 @@
 .concept-hero {
   align-items: center;
   display: grid;
-  min-height: min(760px, 88svh);
+  min-height: min(620px, 70svh);
   overflow: hidden;
-  padding: clamp(28px, 5vw, 62px) clamp(18px, 5vw, 70px) clamp(70px, 10vw, 120px);
+  padding: clamp(24px, 4vw, 50px) clamp(18px, 5vw, 70px) clamp(42px, 6vw, 72px);
   position: relative;
 }
 
@@ -136,7 +136,7 @@
 }
 
 .scroll-cue {
-  bottom: 24px;
+  bottom: 14px;
   display: grid;
   height: 42px;
   left: 50%;
@@ -156,7 +156,7 @@
 }
 
 .concept-heading {
-  padding-top: clamp(32px, 7vw, 82px);
+  padding-top: clamp(18px, 3vw, 34px);
 }
 
 .concept-heading p {
@@ -340,8 +340,8 @@
 
 @media (max-width: 860px) {
   .concept-hero {
-    min-height: 76svh;
-    padding-bottom: 86px;
+    min-height: 62svh;
+    padding-bottom: 62px;
   }
 
   .field-film {
@@ -363,7 +363,7 @@
 
 @media (max-width: 520px) {
   .concept-hero {
-    min-height: 68svh;
+    min-height: 58svh;
     padding-left: 16px;
     padding-right: 16px;
   }
