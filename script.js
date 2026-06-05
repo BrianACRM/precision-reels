@@ -21,7 +21,7 @@ initInventory();
 async function initInventory() {
   if (supabaseConfig.url && supabaseConfig.anonKey) {
     const liveListings = await fetchLiveListings();
-    products = filterListings(liveListings);
+    products = inventoryBrand ? filterListings(liveListings) : filterHomeListings(liveListings);
   }
 
   renderInventory(products);
@@ -32,6 +32,11 @@ function filterListings(items) {
   if (!inventoryBrand) return items;
   const target = normalizeBrand(inventoryBrand);
   return items.filter((item) => normalizeBrand(item.make) === target);
+}
+
+function filterHomeListings(items) {
+  const homepageBrands = new Set(["jacobsen", "toro", "john deere"]);
+  return items.filter((item) => homepageBrands.has(normalizeBrand(item.make)));
 }
 
 function normalizeBrand(value = "") {
