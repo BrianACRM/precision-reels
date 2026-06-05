@@ -1076,7 +1076,9 @@ dd {
 }
 
 .rolux-card-body {
-  display: grid;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   gap: 13px;
   padding: 18px;
 }
@@ -1150,9 +1152,11 @@ dd {
   font-size: 0.78rem;
   font-weight: 900;
   letter-spacing: 0.06em;
+  margin-top: auto;
   min-height: 42px;
   place-items: center;
   text-transform: uppercase;
+  width: 100%;
 }
 
 @media (max-width: 720px) {
