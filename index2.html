@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Precision Reels | Alternate Homepage</title>
+    <meta name="description" content="Precision Reels sells quality used walk-behind greens mowers for golf courses and residential homeowners throughout North America." />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#101812" />
+    <link rel="preconnect" href="https://ddomhyyhixovprojozvy.supabase.co" crossorigin />
+    <link rel="preload" as="image" href="./assets/logo-1200.webp" type="image/webp" fetchpriority="high" />
+    <link rel="stylesheet" href="./styles2.css" />
+  </head>
+  <body class="concept-page">
+    <main>
+      <section class="concept-hero">
+        <div class="field-film" aria-hidden="true"></div>
+        <div class="field-lines" aria-hidden="true"></div>
+        <div class="hero-sheen" aria-hidden="true"></div>
+
+        <div class="hero-shell">
+          <picture>
+            <source srcset="./assets/logo-900.webp 900w, ./assets/logo-1200.webp 1200w" type="image/webp" sizes="(max-width: 900px) 90vw, 780px" />
+            <img class="hero-logo" src="./assets/logo-1200.png" alt="Precision Reels" width="1200" height="282" fetchpriority="high" decoding="async" />
+          </picture>
+
+          <p class="hero-positioning">Your trusted source for quality used walk-behind greens mowers, serving golf courses and residential homeowners throughout North America.</p>
+
+          <div class="hero-actions" aria-label="Primary actions">
+            <a href="#inventoryTitle">View Inventory</a>
+            <a href="./contact.html">Contact</a>
+          </div>
+        </div>
+
+        <div class="scroll-cue" aria-hidden="true">
+          <span></span>
+        </div>
+      </section>
+
+      <section class="inventory-heading concept-heading" aria-labelledby="inventoryTitle">
+        <p>Live used mower inventory</p>
+        <h1 id="inventoryTitle">Inventory: Click into any mower for details</h1>
+      </section>
+
+      <section class="inventory-grid is-loading concept-grid" aria-label="Mower inventory">
+        <p class="inventory-status">Loading inventory...</p>
+      </section>
+
+      <section class="detail-panel concept-detail" id="details" aria-live="polite">
+        <button class="close-detail" type="button" aria-label="Close details">Close</button>
+        <div class="detail-gallery" id="detailGallery"></div>
+
+        <div class="detail-image">
+          <img id="detailImage" alt="Selected mower" />
+        </div>
+
+        <article class="detail-copy">
+          <h2 id="detailTitle">2017 Jacobsen PGM22 Walk Reel</h2>
+          <p class="detail-price" id="detailPrice">$4,850.00</p>
+          <p class="shipping">Pickup or shipping quote confirmed with seller.</p>
+
+          <div class="description">
+            <h3>Description</h3>
+            <dl id="detailSpecs"></dl>
+          </div>
+
+          <form class="inline-inquiry">
+            <h3>Inquire to buy</h3>
+            <input type="text" name="name" placeholder="Name" />
+            <input type="text" name="contact" placeholder="Phone or email" />
+            <textarea id="detailMessage" name="message" placeholder="I am interested in this mower."></textarea>
+            <a class="email-action" id="emailAction" href="mailto:brandon@precisionreels.com">Contact Precision Reels</a>
+          </form>
+        </article>
+      </section>
+
+      <footer class="site-footer concept-footer">
+        <span>Davis Turf and Tool LLC</span>
+        <a href="./contact.html">Contact</a>
+      </footer>
+    </main>
+
+    <nav class="mobile-dock" aria-label="Quick actions">
+      <a href="#inventoryTitle">Inventory</a>
+      <a href="./contact.html">Contact</a>
+    </nav>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./supabase-config.js"></script>
+    <script src="./supabase-client.js"></script>
+    <script src="./script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,393 @@
+@import url("./styles.css");
+
+:root {
+  --bg: oklch(11% 0.012 142);
+  --deck: oklch(16% 0.012 142 / 86%);
+  --deck-hover: oklch(20% 0.018 142 / 94%);
+  --orange: oklch(68% 0.18 55);
+  --amber-soft: oklch(82% 0.095 72);
+  --green-lit: oklch(48% 0.12 138);
+  --field-shadow: oklch(4% 0.018 142 / 72%);
+}
+
+.concept-page {
+  background:
+    radial-gradient(circle at 78% 8%, oklch(68% 0.18 55 / 13%), transparent 28%),
+    linear-gradient(180deg, oklch(9% 0.012 142), var(--bg) 42%, oklch(8% 0.01 142));
+  overflow-x: hidden;
+}
+
+.concept-hero {
+  align-items: center;
+  display: grid;
+  min-height: min(760px, 88svh);
+  overflow: hidden;
+  padding: clamp(28px, 5vw, 62px) clamp(18px, 5vw, 70px) clamp(70px, 10vw, 120px);
+  position: relative;
+}
+
+.field-film,
+.field-lines,
+.hero-sheen {
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.field-film {
+  animation: slow-field 24s cubic-bezier(0.16, 1, 0.3, 1) infinite alternate;
+  background:
+    linear-gradient(180deg, oklch(6% 0.012 142 / 16%), oklch(6% 0.012 142 / 88%) 88%),
+    linear-gradient(90deg, oklch(5% 0.012 142 / 90%) 0%, oklch(5% 0.012 142 / 44%) 46%, oklch(5% 0.012 142 / 78%) 100%),
+    url("./assets/pgm22-field-2.jpg") center 42% / cover;
+  inset: -9%;
+  opacity: 0.82;
+  transform: scale(1.04);
+}
+
+.field-lines {
+  animation: stripe-drift 16s linear infinite;
+  background:
+    repeating-linear-gradient(
+      103deg,
+      transparent 0 34px,
+      oklch(62% 0.11 138 / 16%) 34px 38px,
+      transparent 38px 74px
+    );
+  filter: blur(0.2px);
+  mix-blend-mode: screen;
+  opacity: 0.36;
+  transform: translateX(-7%);
+}
+
+.hero-sheen {
+  animation: light-sweep 8.5s ease-in-out infinite;
+  background: linear-gradient(112deg, transparent 0 36%, oklch(92% 0.04 82 / 12%) 45%, transparent 54% 100%);
+  opacity: 0.6;
+  transform: translateX(-72%);
+}
+
+.concept-hero::after {
+  background:
+    radial-gradient(ellipse at 50% 22%, oklch(68% 0.18 55 / 16%), transparent 36%),
+    linear-gradient(0deg, var(--bg) 0%, transparent 24%);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.hero-shell {
+  margin: 0 auto;
+  max-width: 980px;
+  position: relative;
+  text-align: center;
+  z-index: 2;
+}
+
+.concept-hero .hero-logo {
+  animation: logo-arrive 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  filter:
+    drop-shadow(0 30px 80px oklch(2% 0.02 142 / 82%))
+    drop-shadow(0 0 30px oklch(68% 0.18 55 / 18%));
+  max-width: min(790px, 92vw);
+}
+
+.concept-hero .hero-positioning {
+  animation: text-arrive 900ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
+  color: oklch(96% 0.016 86);
+  font-size: clamp(1rem, 2.3vw, 1.58rem);
+  font-weight: 760;
+  line-height: 1.28;
+  margin: clamp(20px, 3.2vw, 34px) auto 0;
+  max-width: 900px;
+  text-shadow: 0 12px 40px oklch(2% 0.02 142 / 82%);
+}
+
+.hero-actions {
+  animation: text-arrive 900ms cubic-bezier(0.16, 1, 0.3, 1) 210ms both;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-top: clamp(22px, 4vw, 38px);
+}
+
+.hero-actions a,
+.mobile-dock a {
+  align-items: center;
+  background: oklch(68% 0.18 55);
+  color: oklch(14% 0.018 82);
+  display: inline-flex;
+  font-size: 0.82rem;
+  font-weight: 900;
+  justify-content: center;
+  letter-spacing: 0.07em;
+  min-height: 44px;
+  padding: 0 18px;
+  text-transform: uppercase;
+}
+
+.hero-actions a:last-child,
+.mobile-dock a:last-child {
+  background: oklch(95% 0.018 86 / 11%);
+  border: 1px solid oklch(95% 0.018 86 / 22%);
+  color: oklch(95% 0.018 86);
+}
+
+.scroll-cue {
+  bottom: 24px;
+  display: grid;
+  height: 42px;
+  left: 50%;
+  place-items: center;
+  position: absolute;
+  transform: translateX(-50%);
+  width: 28px;
+  z-index: 3;
+}
+
+.scroll-cue span {
+  animation: cue-drop 1.6s ease-in-out infinite;
+  background: var(--orange);
+  display: block;
+  height: 20px;
+  width: 2px;
+}
+
+.concept-heading {
+  padding-top: clamp(32px, 7vw, 82px);
+}
+
+.concept-heading p {
+  color: var(--orange);
+  font-size: 0.72rem;
+  font-weight: 950;
+  letter-spacing: 0.16em;
+  margin: 0 0 9px;
+  text-transform: uppercase;
+}
+
+.concept-heading h1 {
+  color: oklch(92% 0.018 86);
+  font-size: clamp(0.95rem, 1.7vw, 1.24rem);
+}
+
+.concept-grid {
+  gap: clamp(22px, 3vw, 34px);
+  padding-top: clamp(22px, 3vw, 34px);
+}
+
+.concept-grid .inventory-card {
+  animation: card-rise 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  background:
+    linear-gradient(180deg, oklch(20% 0.016 142 / 82%), oklch(13% 0.012 142 / 94%));
+  border-color: oklch(95% 0.018 86 / 14%);
+  box-shadow:
+    0 22px 70px oklch(2% 0.02 142 / 38%),
+    inset 0 1px 0 oklch(95% 0.018 86 / 9%);
+  overflow: hidden;
+  position: relative;
+}
+
+.concept-grid .inventory-card::before {
+  background: linear-gradient(120deg, transparent 0 36%, oklch(92% 0.04 82 / 10%) 48%, transparent 60%);
+  content: "";
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transform: translateX(-65%);
+  transition:
+    opacity 220ms ease,
+    transform 650ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.concept-grid .inventory-card:hover::before,
+.concept-grid .inventory-card:focus-visible::before {
+  opacity: 1;
+  transform: translateX(65%);
+}
+
+.concept-grid .inventory-card:nth-child(2) {
+  animation-delay: 90ms;
+}
+
+.concept-grid .inventory-card:nth-child(3) {
+  animation-delay: 180ms;
+}
+
+.concept-grid .inventory-card:nth-child(4) {
+  animation-delay: 270ms;
+}
+
+.concept-grid .photo-box {
+  background:
+    radial-gradient(circle at 50% 18%, oklch(97% 0.018 86), oklch(82% 0.025 96) 72%);
+}
+
+.concept-grid .photo-box img {
+  transition: transform 550ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.concept-grid .inventory-card:hover .photo-box img,
+.concept-grid .inventory-card:focus-visible .photo-box img {
+  transform: scale(1.035);
+}
+
+.concept-detail {
+  background:
+    radial-gradient(circle at 18% 0%, oklch(68% 0.18 55 / 14%), transparent 30%),
+    linear-gradient(120deg, oklch(12% 0.012 142), oklch(21% 0.026 142));
+}
+
+.mobile-dock {
+  bottom: 14px;
+  display: none;
+  gap: 10px;
+  left: 50%;
+  position: fixed;
+  transform: translateX(-50%);
+  z-index: 20;
+}
+
+@keyframes slow-field {
+  from {
+    transform: scale(1.04) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.12) translate3d(-1.8%, -1.2%, 0);
+  }
+}
+
+@keyframes stripe-drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 240px 0;
+  }
+}
+
+@keyframes light-sweep {
+  0%,
+  42% {
+    transform: translateX(-72%);
+  }
+  78%,
+  100% {
+    transform: translateX(72%);
+  }
+}
+
+@keyframes logo-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes text-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes card-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cue-drop {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(-6px);
+  }
+  45% {
+    opacity: 1;
+    transform: translateY(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .field-film,
+  .field-lines,
+  .hero-sheen,
+  .concept-hero .hero-logo,
+  .concept-hero .hero-positioning,
+  .hero-actions,
+  .scroll-cue span,
+  .concept-grid .inventory-card {
+    animation: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .concept-hero {
+    min-height: 76svh;
+    padding-bottom: 86px;
+  }
+
+  .field-film {
+    background-position: center top;
+  }
+
+  .hero-actions {
+    display: none;
+  }
+
+  .mobile-dock {
+    display: flex;
+  }
+
+  .concept-footer {
+    padding-bottom: 92px;
+  }
+}
+
+@media (max-width: 520px) {
+  .concept-hero {
+    min-height: 68svh;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .concept-hero .hero-logo {
+    max-width: 94vw;
+  }
+
+  .concept-hero .hero-positioning {
+    font-size: 1.02rem;
+    max-width: 34ch;
+  }
+
+  .concept-heading {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .mobile-dock {
+    width: calc(100% - 28px);
+  }
+
+  .mobile-dock a {
+    flex: 1;
+    min-height: 46px;
+  }
+}
