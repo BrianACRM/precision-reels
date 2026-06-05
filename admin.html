@@ -7,7 +7,7 @@
     <meta name="robots" content="noindex, nofollow" />
     <meta name="description" content="Precision Reels secure listing dashboard." />
     <link rel="preconnect" href="https://ddomhyyhixovprojozvy.supabase.co" crossorigin />
-    <link rel="stylesheet" href="./admin.css?v=brand-filter-1" />
+    <link rel="stylesheet" href="./admin.css?v=admin-make-1" />
   </head>
   <body>
     <main class="login-shell" id="loginShell" hidden>
@@ -43,14 +43,7 @@
           </div>
           <p class="form-note">Secure listings save to Supabase after login.</p>
 
-          <label class="image-drop">
-            <input id="imageInput" type="file" accept="image/*" multiple />
-            <img id="imagePreview" alt="" />
-            <span id="imagePrompt">Add photos</span>
-          </label>
-          <div class="image-strip" id="imageStrip" aria-label="Selected image previews"></div>
-
-          <label>
+          <label class="make-field">
             Make
             <select name="make" required>
               <option value="Jacobsen">Jacobsen</option>
@@ -60,6 +53,13 @@
               <option value="Other">Other</option>
             </select>
           </label>
+
+          <label class="image-drop">
+            <input id="imageInput" type="file" accept="image/*" multiple />
+            <img id="imagePreview" alt="" />
+            <span id="imagePrompt">Add photos</span>
+          </label>
+          <div class="image-strip" id="imageStrip" aria-label="Selected image previews"></div>
 
           <label>
             Model
@@ -134,6 +134,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="./supabase-config.js"></script>
     <script src="./supabase-client.js"></script>
-    <script src="./admin.js?v=brand-filter-1"></script>
+    <script src="./admin.js?v=admin-make-1"></script>
   </body>
 </html>

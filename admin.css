@@ -25,7 +25,8 @@ body {
 
 button,
 input,
-textarea {
+textarea,
+select {
   font: inherit;
 }
 
@@ -159,6 +160,7 @@ a {
   background: oklch(15% 0.01 145 / 90%);
   border: 1px solid var(--line);
   box-shadow: 0 22px 70px oklch(6% 0.025 145 / 32%);
+  min-width: 0;
 }
 
 .listing-form {
@@ -270,6 +272,18 @@ textarea {
 
 select {
   appearance: none;
+  background:
+    linear-gradient(45deg, transparent 50%, var(--orange) 50%) right 17px center / 8px 8px no-repeat,
+    linear-gradient(135deg, var(--panel-2), var(--panel));
+  cursor: pointer;
+  font-weight: 800;
+  padding-right: 38px;
+}
+
+.make-field select {
+  border-color: oklch(68% 0.18 55 / 58%);
+  color: var(--paper);
+  min-height: 50px;
 }
 
 .image-strip {
@@ -343,6 +357,7 @@ select {
 
 .inventory-admin {
   min-height: 520px;
+  overflow: hidden;
   padding: 18px;
 }
 
@@ -372,7 +387,7 @@ select {
   border: 1px solid var(--line);
   cursor: pointer;
   display: grid;
-  grid-template-columns: 184px minmax(0, 1fr);
+  grid-template-columns: minmax(150px, 184px) minmax(0, 1fr);
   min-height: 168px;
   overflow: hidden;
   position: relative;
@@ -445,18 +460,15 @@ select {
 
 .card-fields {
   display: grid;
-  gap: 12px 18px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  grid-template-columns: 1fr;
   margin: 0;
 }
 
 .card-fields div {
   display: grid;
-  gap: 5px;
-}
-
-.card-fields div:nth-child(4) {
-  grid-column: 1 / -1;
+  gap: 10px;
+  grid-template-columns: 78px minmax(0, 1fr);
 }
 
 .card-fields dt {
@@ -473,6 +485,7 @@ select {
   line-height: 1.35;
   margin: 0;
   min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .listing-dialog p {
