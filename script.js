@@ -12,6 +12,7 @@ const detailSpecs = document.querySelector("#detailSpecs");
 const detailMessage = document.querySelector("#detailMessage");
 const emailAction = document.querySelector("#emailAction");
 const detailGallery = document.querySelector("#detailGallery");
+const inventoryBrand = document.body.dataset.inventoryBrand || "";
 
 let products = fallbackProducts;
 
@@ -20,11 +21,21 @@ initInventory();
 async function initInventory() {
   if (supabaseConfig.url && supabaseConfig.anonKey) {
     const liveListings = await fetchLiveListings();
-    products = liveListings;
+    products = filterListings(liveListings);
   }
 
   renderInventory(products);
   injectInventoryStructuredData(products);
+}
+
+function filterListings(items) {
+  if (!inventoryBrand) return items;
+  const target = normalizeBrand(inventoryBrand);
+  return items.filter((item) => normalizeBrand(item.make) === target);
+}
+
+function normalizeBrand(value = "") {
+  return String(value).trim().toLowerCase();
 }
 
 async function fetchLiveListings() {
@@ -84,7 +95,7 @@ function renderInventory(items) {
 
   inventoryGrid.classList.remove("is-loading");
   if (!items.length) {
-    inventoryGrid.innerHTML = `<p class="inventory-status">No inventory is listed right now.</p>`;
+    inventoryGrid.innerHTML = `<p class="inventory-status">${escapeHtml(emptyInventoryMessage())}</p>`;
     return;
   }
 
@@ -120,6 +131,10 @@ function renderInventory(items) {
       }
     });
   });
+}
+
+function emptyInventoryMessage() {
+  return inventoryBrand ? `No ${inventoryBrand} inventory is listed right now.` : "No inventory is listed right now.";
 }
 
 function openProduct(product) {

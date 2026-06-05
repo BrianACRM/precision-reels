@@ -12,18 +12,44 @@
     <meta property="og:url" content="https://precisionreels.com/used-rolux-reel-mowers.html" />
     <meta property="og:image" content="https://precisionreels.com/assets/logo-1200.png" />
     <meta name="theme-color" content="#101812" />
-    <link rel="stylesheet" href="./styles.css?v=brand-links-1" />
+    <link rel="stylesheet" href="./styles.css?v=brand-filter-1" />
   </head>
-  <body>
+  <body data-inventory-brand="Rolux">
     <main>
       <section class="landing-hero">
         <img class="landing-logo" src="./assets/logo-900.webp" alt="Precision Reels" width="900" height="212" />
         <h1>New Rolux Reel Mowers for Sale</h1>
         <p>Precision Reels can help buyers looking for new Rolux reel mowers along with current used walk-behind mower inventory.</p>
         <div class="landing-actions">
-          <a href="./#inventoryTitle">View Current Inventory</a>
           <a href="./contact.html">Ask About Rolux Mowers</a>
         </div>
+      </section>
+
+      <section class="inventory-heading" aria-labelledby="inventoryTitle">
+        <h1 id="inventoryTitle">Current Rolux inventory</h1>
+      </section>
+
+      <section class="inventory-grid is-loading" aria-label="Rolux mower inventory">
+        <p class="inventory-status">Loading Rolux inventory...</p>
+      </section>
+
+      <section class="detail-panel" id="details" aria-live="polite">
+        <button class="close-detail" type="button" aria-label="Close details">Close</button>
+        <div class="detail-gallery" id="detailGallery"></div>
+        <div class="detail-image"><img id="detailImage" alt="Selected mower" /></div>
+        <article class="detail-copy">
+          <h2 id="detailTitle"></h2>
+          <p class="detail-price" id="detailPrice"></p>
+          <p class="shipping">Pickup or shipping quote confirmed with seller.</p>
+          <div class="description"><h3>Description</h3><dl id="detailSpecs"></dl></div>
+          <form class="inline-inquiry">
+            <h3>Inquire to buy</h3>
+            <input type="text" name="name" placeholder="Name" />
+            <input type="text" name="contact" placeholder="Phone or email" />
+            <textarea id="detailMessage" name="message" placeholder="I am interested in this mower."></textarea>
+            <a class="email-action" id="emailAction" href="mailto:brandon@precisionreels.com">Contact Precision Reels</a>
+          </form>
+        </article>
       </section>
 
       <section class="landing-content">
@@ -60,5 +86,7 @@
         <a href="./">Back to inventory</a>
       </footer>
     </main>
+    <script src="./supabase-config.js"></script>
+    <script src="./script.js?v=brand-filter-1"></script>
   </body>
 </html>
