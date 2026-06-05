@@ -44,14 +44,24 @@ async function fetchLiveListings() {
     ...listing,
     images: (listing.listing_images || [])
       .sort((a, b) => a.sort_order - b.sort_order)
-      .map((image) => publicImageUrl(image.path))
+      .map((image) => imageUrls(image.path))
   }));
 }
 
-function publicImageUrl(path) {
+function imageUrls(path) {
+  return {
+    card: publicImageUrl(path, { width: 560, height: 560, quality: 72 }),
+    thumb: publicImageUrl(path, { width: 180, height: 180, quality: 68 }),
+    detail: publicImageUrl(path, { width: 1200, height: 1200, quality: 82 }),
+    full: publicImageUrl(path)
+  };
+}
+
+function publicImageUrl(path, transform) {
   if (!path) return "";
   if (path.startsWith("./") || path.startsWith("assets/") || path.startsWith("http")) return path;
-  return supabaseClient.storage.from(supabaseConfig.imageBucket).getPublicUrl(path).data.publicUrl;
+  const options = transform ? { transform, download: false } : undefined;
+  return supabaseClient.storage.from(supabaseConfig.imageBucket).getPublicUrl(path, options).data.publicUrl;
 }
 
 function renderInventory(items) {
@@ -65,12 +75,12 @@ function renderInventory(items) {
 
   inventoryGrid.innerHTML = items
     .map((item, index) => {
-      const image = item.images?.[0];
+      const image = item.images?.[0]?.card;
       const title = listingTitle(item);
       return `
         <article class="inventory-card" tabindex="0" data-index="${index}">
           <div class="photo-box">
-            ${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(title)}" loading="${index < 2 ? "eager" : "lazy"}" />` : `<span class="no-photo">No photos yet</span>`}
+            ${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(title)}" loading="${index < 2 ? "eager" : "lazy"}" decoding="async" fetchpriority="${index === 0 ? "high" : "auto"}" />` : `<span class="no-photo">No photos yet</span>`}
           </div>
           <h2>${escapeHtml(item.make || "Jacobsen")}</h2>
           <dl class="card-fields">
@@ -100,10 +110,10 @@ function renderInventory(items) {
 function openProduct(product) {
   if (!product || !detailPanel) return;
 
-  const images = product.images?.filter(Boolean) || [];
+  const images = product.images?.filter((image) => image?.detail) || [];
   const title = listingTitle(product);
   if (images[0]) {
-    detailImage.src = images[0];
+    detailImage.src = images[0].detail;
     detailImage.hidden = false;
     detailImage.parentElement.classList.remove("has-no-image");
   } else {
@@ -142,9 +152,9 @@ function renderDetailGallery(images, title) {
 
   detailGallery.innerHTML = images
     .map(
-      (src, index) => `
+      (image, index) => `
         <button class="detail-thumb${index === 0 ? " is-active" : ""}" type="button" data-image-index="${index}">
-          <img src="${escapeHtml(src)}" alt="${escapeHtml(title)} photo ${index + 1}" />
+          <img src="${escapeHtml(image.thumb)}" alt="${escapeHtml(title)} photo ${index + 1}" loading="lazy" decoding="async" />
         </button>
       `
     )
@@ -153,7 +163,7 @@ function renderDetailGallery(images, title) {
   detailGallery.querySelectorAll(".detail-thumb").forEach((button) => {
     button.addEventListener("click", () => {
       const src = images[Number(button.dataset.imageIndex)] || images[0];
-      detailImage.src = src;
+      detailImage.src = src.detail;
       detailGallery.querySelectorAll(".detail-thumb").forEach((thumb) => thumb.classList.remove("is-active"));
       button.classList.add("is-active");
     });

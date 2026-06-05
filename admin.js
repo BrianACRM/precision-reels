@@ -102,15 +102,25 @@ async function loadListings() {
     ...listing,
     images: (listing.listing_images || [])
       .sort((a, b) => a.sort_order - b.sort_order)
-      .map((image) => publicImageUrl(image.path))
+      .map((image) => imageUrls(image.path))
   }));
   renderListings();
 }
 
-function publicImageUrl(path) {
+function imageUrls(path) {
+  return {
+    card: publicImageUrl(path, { width: 520, height: 390, quality: 72 }),
+    thumb: publicImageUrl(path, { width: 180, height: 180, quality: 68 }),
+    detail: publicImageUrl(path, { width: 1200, height: 900, quality: 82 }),
+    full: publicImageUrl(path)
+  };
+}
+
+function publicImageUrl(path, transform) {
   if (!path) return "";
   if (path.startsWith("./") || path.startsWith("assets/") || path.startsWith("http")) return path;
-  return client.storage.from(config.imageBucket).getPublicUrl(path).data.publicUrl;
+  const options = transform ? { transform, download: false } : undefined;
+  return client.storage.from(config.imageBucket).getPublicUrl(path, options).data.publicUrl;
 }
 
 function renderListings() {
@@ -124,7 +134,7 @@ function renderListings() {
     const title = node.querySelector("h2");
     const fields = node.querySelector(".card-fields");
     const remove = node.querySelector(".remove-button");
-    const primaryImage = listing.images?.[0];
+    const primaryImage = listing.images?.[0]?.card;
 
     image.alt = listingTitle(listing);
     if (primaryImage) {
@@ -277,8 +287,8 @@ async function updateListing(listing) {
 
 async function uploadImages(listingId, startOrder = 0) {
   for (let i = 0; i < uploadedFiles.length; i += 1) {
-    const file = uploadedFiles[i];
-    const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+    const file = await resizeImageFile(uploadedFiles[i]);
+    const ext = "jpg";
     const path = `${listingId}/${crypto.randomUUID()}.${ext}`;
     const upload = await client.storage.from(config.imageBucket).upload(path, file, {
       cacheControl: "31536000",
@@ -296,9 +306,41 @@ async function uploadImages(listingId, startOrder = 0) {
   }
 }
 
+async function resizeImageFile(file) {
+  if (!file?.type?.startsWith("image/")) return file;
+
+  const image = await loadImage(file);
+  const maxSize = 1800;
+  const ratio = Math.min(1, maxSize / Math.max(image.naturalWidth, image.naturalHeight));
+  const width = Math.max(1, Math.round(image.naturalWidth * ratio));
+  const height = Math.max(1, Math.round(image.naturalHeight * ratio));
+
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const context = canvas.getContext("2d", { alpha: false });
+  context.fillStyle = "#f1eee6";
+  context.fillRect(0, 0, width, height);
+  context.drawImage(image, 0, 0, width, height);
+  URL.revokeObjectURL(image.src);
+
+  const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg", 0.82));
+  if (!blob) return file;
+  return new File([blob], file.name.replace(/\.[^.]+$/, ".jpg"), { type: "image/jpeg" });
+}
+
+function loadImage(file) {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = reject;
+    image.src = URL.createObjectURL(file);
+  });
+}
+
 function openListing(listing) {
   activeListing = listing;
-  const images = listing.images?.filter(Boolean) || [];
+  const images = listing.images?.filter((image) => image?.detail) || [];
   renderDialogGallery(images, listingTitle(listing));
   dialogTitle.textContent = listing.make || "Jacobsen";
   dialogFields.innerHTML = fieldRows([
@@ -322,13 +364,13 @@ function renderDialogGallery(images, title) {
   }
 
   dialogMainImage.parentElement.hidden = false;
-  dialogMainImage.src = images[0];
+  dialogMainImage.src = images[0].detail;
   dialogMainImage.hidden = false;
   dialogGallery.innerHTML = images
     .map(
-      (src, index) => `
+      (image, index) => `
         <button class="dialog-thumb${index === 0 ? " is-active" : ""}" type="button" data-image-index="${index}">
-          <img src="${escapeHtml(src)}" alt="${escapeHtml(title)} photo ${index + 1}" />
+          <img src="${escapeHtml(image.thumb)}" alt="${escapeHtml(title)} photo ${index + 1}" loading="lazy" decoding="async" />
         </button>
       `
     )
@@ -337,7 +379,7 @@ function renderDialogGallery(images, title) {
   dialogGallery.querySelectorAll(".dialog-thumb").forEach((button) => {
     button.addEventListener("click", () => {
       const src = images[Number(button.dataset.imageIndex)] || images[0];
-      dialogMainImage.src = src;
+      dialogMainImage.src = src.detail;
       dialogGallery.querySelectorAll(".dialog-thumb").forEach((thumb) => thumb.classList.remove("is-active"));
       button.classList.add("is-active");
     });
