@@ -50,25 +50,6 @@ img {
   position: relative;
 }
 
-.top-contact-link {
-  background: var(--orange);
-  color: oklch(17% 0.025 98);
-  display: grid;
-  font-weight: 900;
-  min-height: 42px;
-  min-width: min(260px, calc(100vw - 40px));
-  padding: 0 16px;
-  place-items: center;
-  position: absolute;
-  bottom: 18px;
-  left: 50%;
-  right: auto;
-  text-transform: uppercase;
-  top: auto;
-  transform: translateX(-50%);
-  z-index: 4;
-}
-
 .ambient-field {
   animation: hero-breathe 18s ease-in-out infinite alternate;
   background:
