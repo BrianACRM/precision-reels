@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contact | Precision Reels</title>
+    <meta name="description" content="Contact Brandon at Precision Reels about used walk-behind greens mowers, inventory questions, pickup, and shipping." />
+    <link rel="canonical" href="https://precisionreels.com/contact.html" />
+    <meta property="og:title" content="Contact Precision Reels" />
+    <meta property="og:description" content="Ask Brandon about used walk-behind greens mowers, current inventory, pickup, and shipping." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://precisionreels.com/contact.html" />
+    <meta property="og:image" content="https://precisionreels.com/assets/logo-1200.png" />
+    <meta name="theme-color" content="#101812" />
+    <link rel="preload" as="image" href="./assets/logo-900.webp" type="image/webp" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="contact-shell">
+      <header class="contact-header">
+        <picture>
+          <source srcset="./assets/logo-900.webp" type="image/webp" />
+          <img class="contact-logo" src="./assets/logo-900.png" alt="Precision Reels" width="900" height="212" />
+        </picture>
+        <h1>Contact Brandon</h1>
+      </header>
+
+      <section class="contact-layout">
+        <aside class="contact-card">
+          <h2>Buying or selling a mower?</h2>
+          <p>
+            Reach out about current inventory, incoming walk-behind greens mowers, pickup, shipping, or questions about a specific stock number.
+          </p>
+          <a href="mailto:brandon@precisionreels.com">brandon@precisionreels.com</a>
+          <a class="back-link" href="./">Back to inventory</a>
+        </aside>
+
+        <form class="contact-form" id="contactForm">
+          <h2>Send an email</h2>
+          <label>
+            Name
+            <input name="name" type="text" placeholder="Your name" required />
+          </label>
+          <label>
+            Phone or email
+            <input name="contact" type="text" placeholder="Best way to reach you" required />
+          </label>
+          <label>
+            Subject
+            <input name="subject" type="text" placeholder="Mower inquiry" required />
+          </label>
+          <label>
+            Message
+            <textarea name="message" placeholder="Tell Brandon what you are looking for." required></textarea>
+          </label>
+          <button type="submit">Email Brandon</button>
+        </form>
+      </section>
+      <footer class="site-footer">
+        <span>A Davis Turf and Tool LLC company.</span>
+        <a href="./">Back to inventory</a>
+      </footer>
+    </main>
+
+    <script src="./contact.js"></script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("./service-worker.js").catch(() => {});
+      }
+    </script>
+  </body>
+</html>

@@ -1,30 +1,31 @@
 # Precision Reels
 
-Standalone website and admin system for walk-behind reel mower inventory.
+Standalone GitHub Pages site for Precision Reels used walk-behind greens mower inventory.
 
-## Static demo
+## Pages
 
-The repository root is a static GitHub Pages demo:
+- `index.html`: public inventory with expandable listing details and Brandon email inquiries.
+- `contact.html`: contact page with mailto form.
+- `admin.html`: secure inventory admin once Supabase is configured.
 
-- `index.html`
-- `admin.html`
-- `styles.css`
-- `admin.css`
+## Supabase setup
 
-## SiteGround app
+1. Create a Supabase project.
+2. In Supabase Storage, create a public bucket named `listing-images`.
+3. Run `supabase-schema.sql` in the Supabase SQL editor.
+4. Disable public signups in Authentication settings.
+5. Create Brandon's auth user with `brandon@precisionreels.com`.
+6. Insert Brandon's auth user UUID into `admin_profiles`:
 
-The production-ready PHP/MySQL version is in `siteground/`.
+```sql
+insert into public.admin_profiles (user_id, email)
+values ('AUTH_USER_UUID_HERE', 'brandon@precisionreels.com');
+```
 
-It includes:
+7. Copy `supabase-config.example.js` to `supabase-config.js` and fill in the project URL and anon key.
 
-- Login-protected admin
-- PHP sessions with HTTP-only cookies
-- CSRF protection
-- MySQL listings and listing images
-- Add, edit, delete, and mark sold
-- Multiple image uploads
-- Stock numbers and listing status
-- Upload validation and non-executable upload folder
-- PWA manifest and service worker
+Only the Supabase anon key belongs in this repo. Do not commit a service role key.
 
-See `siteground/README.md` for deployment steps.
+## SEO and PWA
+
+The site includes canonical tags, Open Graph metadata, structured data, `robots.txt`, `sitemap.xml`, a web manifest, app icons, and a small service worker for cached shell assets.

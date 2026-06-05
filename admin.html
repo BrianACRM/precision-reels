@@ -4,27 +4,43 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Mower Inventory Admin</title>
-    <meta name="description" content="Simple admin dashboard prototype for adding and removing mower listings." />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="description" content="Precision Reels secure listing dashboard." />
     <link rel="stylesheet" href="./admin.css" />
   </head>
   <body>
-    <main class="admin-shell">
+    <main class="login-shell" id="loginShell" hidden>
+      <form class="login-card" id="loginForm">
+        <img class="admin-logo" src="./assets/logo-900.webp" alt="Precision Reels" />
+        <p>Secure admin</p>
+        <h1>Sign in</h1>
+        <label>Email <input name="email" type="email" autocomplete="username" required /></label>
+        <label>Password <input name="password" type="password" autocomplete="current-password" required /></label>
+        <button type="submit">Login</button>
+        <span class="form-note" id="loginMessage"></span>
+      </form>
+    </main>
+
+    <main class="admin-shell" id="adminShell" hidden>
       <header class="admin-header">
         <div>
-          <img class="admin-logo" src="./assets/logos.png" alt="Mower inventory logo" />
+          <img class="admin-logo" src="./assets/logo-900.webp" alt="Precision Reels" />
           <p>Inventory admin</p>
           <h1>Mower listings</h1>
         </div>
-        <a href="./">View website</a>
+        <nav class="admin-nav">
+          <a href="./">View website</a>
+          <button id="logoutButton" type="button">Logout</button>
+        </nav>
       </header>
 
       <section class="admin-board">
         <form class="listing-form" id="listingForm">
           <div class="form-heading">
             <span>Add mower</span>
-            <strong>New listing</strong>
+            <strong id="formModeLabel">New listing</strong>
           </div>
-          <p class="form-note">This demo saves changes in this browser only. The real SiteGround version will save to MySQL.</p>
+          <p class="form-note">Secure listings save to Supabase after login.</p>
 
           <label class="image-drop">
             <input id="imageInput" type="file" accept="image/*" multiple />
@@ -69,7 +85,10 @@
             </label>
           </div>
 
-          <button type="submit">Add listing</button>
+          <div class="form-actions">
+            <button id="submitListingButton" type="submit">Add listing</button>
+            <button id="cancelEditButton" type="button" hidden>Cancel edit</button>
+          </div>
         </form>
 
         <section class="inventory-admin" aria-label="Current listings">
@@ -108,12 +127,15 @@
         <strong id="dialogPrice"></strong>
         <p id="dialogNote"></p>
         <div class="dialog-actions">
-          <button type="button">Edit listing</button>
-          <button type="button">Mark sold</button>
+          <button id="editListingButton" type="button">Edit listing</button>
+          <button id="markSoldButton" type="button">Mark sold</button>
         </div>
       </div>
     </dialog>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./supabase-config.js"></script>
+    <script src="./supabase-client.js"></script>
     <script src="./admin.js"></script>
   </body>
 </html>

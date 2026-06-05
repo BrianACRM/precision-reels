@@ -34,6 +34,45 @@ a {
   text-decoration: none;
 }
 
+[hidden] {
+  display: none !important;
+}
+
+.login-shell {
+  align-items: center;
+  display: grid;
+  min-height: 100vh;
+  padding: 20px;
+  place-items: center;
+}
+
+.login-card {
+  background: oklch(15% 0.01 145 / 94%);
+  border: 1px solid var(--line);
+  box-shadow: 0 22px 70px oklch(6% 0.025 145 / 32%);
+  display: grid;
+  gap: 14px;
+  max-width: 420px;
+  padding: 22px;
+  width: 100%;
+}
+
+.login-card h1 {
+  font-size: 2.4rem;
+  font-weight: 500;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.login-card p {
+  color: var(--orange);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
 .admin-shell {
   min-height: 100vh;
   padding: clamp(16px, 3vw, 34px);
@@ -84,6 +123,24 @@ a {
 .admin-header a {
   border: 1px solid var(--line);
   color: var(--muted);
+  font-weight: 800;
+  min-height: 40px;
+  padding: 10px 13px;
+  text-transform: uppercase;
+}
+
+.admin-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.admin-nav button {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  cursor: pointer;
   font-weight: 800;
   min-height: 40px;
   padding: 10px 13px;
@@ -225,14 +282,30 @@ select {
   width: 100%;
 }
 
-.listing-form > button {
-  background: var(--orange);
-  border: 0;
-  color: oklch(16% 0.018 80);
+.form-actions {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.form-actions button {
   cursor: pointer;
   font-weight: 900;
   min-height: 48px;
   text-transform: uppercase;
+}
+
+.form-actions button:first-child {
+  background: var(--orange);
+  border: 0;
+  color: oklch(16% 0.018 80);
+}
+
+.form-actions button:last-child {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  padding: 0 14px;
 }
 
 .inventory-admin {

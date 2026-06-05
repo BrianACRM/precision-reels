@@ -1,17 +1,19 @@
 const CACHE_NAME = "precision-reels-v1";
-const STATIC_ASSETS = [
+const APP_SHELL = [
   "/",
+  "/index.html",
+  "/contact.html",
   "/styles.css",
-  "/app.js",
-  "/assets/logos.png",
+  "/script.js",
+  "/contact.js",
+  "/assets/logo-1200.webp",
+  "/assets/logo-900.webp",
   "/assets/icon-192.png",
-  "/assets/icon-512.png",
-  "/assets/pgm22.png",
-  "/assets/eclipse-2.png"
+  "/assets/icon-512.png"
 ];
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS)));
+  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)));
   self.skipWaiting();
 });
 
@@ -25,18 +27,14 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  const request = event.request;
-  if (request.method !== "GET" || new URL(request.url).pathname.startsWith("/admin")) {
-    return;
-  }
-
+  if (event.request.method !== "GET") return;
   event.respondWith(
-    fetch(request)
+    fetch(event.request)
       .then((response) => {
         const copy = response.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
+        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
         return response;
       })
-      .catch(() => caches.match(request).then((cached) => cached || caches.match("/")))
+      .catch(() => caches.match(event.request).then((cached) => cached || caches.match("/")))
   );
 });
