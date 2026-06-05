@@ -2,56 +2,7 @@ const contactEmail = window.PRECISION_CONFIG?.contactEmail || "brandon@precision
 const supabaseClient = window.precisionSupabase;
 const supabaseConfig = window.PRECISION_CONFIG || {};
 
-const fallbackProducts = [
-  {
-    id: "demo-pgm-2017",
-    images: ["./assets/pgm22-field-1.jpg", "./assets/pgm22.png", "./assets/pgm22-field-2.jpg"],
-    make: "Jacobsen",
-    year: "2017",
-    model: "PGM22 Walk Reel",
-    price: "$4,850.00",
-    note: "22 inch walk-behind reel mower example. Pickup or freight quote confirmed with seller.",
-    specs: "22 inch walk-behind reel mower example. Pickup or freight quote confirmed with seller.",
-    stock_number: "JM-017",
-    status: "Available"
-  },
-  {
-    id: "demo-eclipse-2020",
-    images: ["./assets/eclipse-2-field.jpg", "./assets/eclipse-2.png"],
-    make: "Jacobsen",
-    year: "2020",
-    model: "Eclipse 2",
-    price: "$3,950.00",
-    note: "Battery walk mower example with room for condition notes and accessories.",
-    specs: "Battery walk mower example with room for condition notes and accessories.",
-    stock_number: "JM-020",
-    status: "Available"
-  },
-  {
-    id: "demo-pgm-2019",
-    images: ["./assets/pgm22-field-2.jpg", "./assets/pgm22-field-1.jpg"],
-    make: "Jacobsen",
-    year: "2019",
-    model: "PGM 22 Walk Reel",
-    price: "$3,650.00",
-    note: "Walk-behind reel mower example with room for blade count and accessories.",
-    specs: "Walk-behind reel mower example with room for blade count and accessories.",
-    stock_number: "JM-019",
-    status: "Available"
-  },
-  {
-    id: "demo-pgm-2018",
-    images: ["./assets/pgm22.png", "./assets/pgm22-field-1.jpg"],
-    make: "Jacobsen",
-    year: "2018",
-    model: "PGM22 Walk Reel",
-    price: "$5,250.00",
-    note: "Placeholder listing for seller-uploaded photos and condition notes.",
-    specs: "Placeholder listing for seller-uploaded photos and condition notes.",
-    stock_number: "JM-018",
-    status: "Pending"
-  }
-];
+const fallbackProducts = [];
 
 const inventoryGrid = document.querySelector(".inventory-grid");
 const detailPanel = document.querySelector("#details");
@@ -61,7 +12,7 @@ const detailPrice = document.querySelector("#detailPrice");
 const detailSpecs = document.querySelector("#detailSpecs");
 const detailMessage = document.querySelector("#detailMessage");
 const emailAction = document.querySelector("#emailAction");
-const detailThumbs = Array.from(document.querySelectorAll(".detail-thumb"));
+const detailGallery = document.querySelector("#detailGallery");
 
 let products = fallbackProducts;
 
@@ -70,7 +21,7 @@ initInventory();
 async function initInventory() {
   if (window.PRECISION_SUPABASE_READY) {
     const liveListings = await fetchLiveListings();
-    if (liveListings.length) products = liveListings;
+    products = liveListings;
   }
 
   renderInventory(products);
@@ -98,7 +49,7 @@ async function fetchLiveListings() {
 }
 
 function publicImageUrl(path) {
-  if (!path) return "./assets/pgm22.png";
+  if (!path) return "";
   if (path.startsWith("./") || path.startsWith("assets/") || path.startsWith("http")) return path;
   return supabaseClient.storage.from(supabaseConfig.imageBucket).getPublicUrl(path).data.publicUrl;
 }
@@ -107,20 +58,25 @@ function renderInventory(items) {
   if (!inventoryGrid) return;
 
   inventoryGrid.classList.remove("is-loading");
+  if (!items.length) {
+    inventoryGrid.innerHTML = `<p class="inventory-status">No inventory is listed right now.</p>`;
+    return;
+  }
+
   inventoryGrid.innerHTML = items
     .map((item, index) => {
-      const image = item.images?.[0] || "./assets/pgm22.png";
+      const image = item.images?.[0];
       const title = listingTitle(item);
       return `
         <article class="inventory-card" tabindex="0" data-index="${index}">
           <div class="photo-box">
-            <img src="${escapeHtml(image)}" alt="${escapeHtml(title)}" loading="${index < 2 ? "eager" : "lazy"}" />
+            ${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(title)}" loading="${index < 2 ? "eager" : "lazy"}" />` : `<span class="no-photo">No photos yet</span>`}
           </div>
           <h2>${escapeHtml(item.make || "Jacobsen")}</h2>
           <dl class="card-fields">
             <div><dt>Model</dt><dd>${escapeHtml(item.model)}</dd></div>
             <div><dt>Year</dt><dd>${escapeHtml(item.year)}</dd></div>
-            <div><dt>Price</dt><dd>${escapeHtml(item.price)}</dd></div>
+            <div><dt>Price</dt><dd>${escapeHtml(formatPrice(item.price))}</dd></div>
             <div><dt>Specs</dt><dd>${escapeHtml(item.specs || item.note)}</dd></div>
             <div><dt>Stock #</dt><dd>${escapeHtml(item.stock_number || "Contact")}</dd></div>
           </dl>
@@ -144,40 +100,64 @@ function renderInventory(items) {
 function openProduct(product) {
   if (!product || !detailPanel) return;
 
-  const images = product.images?.length ? product.images : ["./assets/pgm22.png"];
+  const images = product.images?.filter(Boolean) || [];
   const title = listingTitle(product);
-  detailImage.src = images[0];
+  if (images[0]) {
+    detailImage.src = images[0];
+    detailImage.hidden = false;
+    detailImage.parentElement.classList.remove("has-no-image");
+  } else {
+    detailImage.removeAttribute("src");
+    detailImage.hidden = true;
+    detailImage.parentElement.classList.add("has-no-image");
+  }
   detailImage.alt = title;
   detailTitle.textContent = title;
-  detailPrice.textContent = product.price;
+  detailPrice.textContent = formatPrice(product.price);
   detailMessage.value = `I am interested in ${title}${product.stock_number ? `, stock ${product.stock_number}` : ""}.`;
   emailAction.href = inquiryHref(product);
   detailSpecs.innerHTML = [
     ["Make", product.make || "Jacobsen"],
     ["Model", product.model],
     ["Year", product.year],
-    ["Price", product.price],
+    ["Price", formatPrice(product.price)],
     ["Specs", product.specs || product.note],
     ["Stock #", product.stock_number || "Contact Precision Reels"]
   ]
     .map(([term, value]) => `<div><dt>${escapeHtml(term)}:</dt><dd>${escapeHtml(value)}</dd></div>`)
     .join("");
 
-  detailThumbs.forEach((button, index) => {
-    const image = button.querySelector("img");
-    const src = images[index] || images[0];
-    image.src = src;
-    image.alt = title;
-    button.classList.toggle("is-active", index === 0);
-    button.onclick = () => {
-      detailImage.src = src;
-      detailThumbs.forEach((thumb) => thumb.classList.remove("is-active"));
-      button.classList.add("is-active");
-    };
-  });
+  renderDetailGallery(images, title);
 
   detailPanel.classList.add("is-open");
   detailPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function renderDetailGallery(images, title) {
+  if (!detailGallery) return;
+  if (!images.length) {
+    detailGallery.innerHTML = `<span class="no-photo detail-no-photo">No photos yet</span>`;
+    return;
+  }
+
+  detailGallery.innerHTML = images
+    .map(
+      (src, index) => `
+        <button class="detail-thumb${index === 0 ? " is-active" : ""}" type="button" data-image-index="${index}">
+          <img src="${escapeHtml(src)}" alt="${escapeHtml(title)} photo ${index + 1}" />
+        </button>
+      `
+    )
+    .join("");
+
+  detailGallery.querySelectorAll(".detail-thumb").forEach((button) => {
+    button.addEventListener("click", () => {
+      const src = images[Number(button.dataset.imageIndex)] || images[0];
+      detailImage.src = src;
+      detailGallery.querySelectorAll(".detail-thumb").forEach((thumb) => thumb.classList.remove("is-active"));
+      button.classList.add("is-active");
+    });
+  });
 }
 
 function inquiryHref(product) {
@@ -197,6 +177,12 @@ function inquiryHref(product) {
 
 function listingTitle(product) {
   return `${product.make || "Jacobsen"} ${product.model} ${product.year}`.trim();
+}
+
+function formatPrice(value = "") {
+  const clean = String(value).trim();
+  if (!clean) return "Contact Precision Reels";
+  return clean.startsWith("$") ? clean : `$${clean}`;
 }
 
 function escapeHtml(value = "") {

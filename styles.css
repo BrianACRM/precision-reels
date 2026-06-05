@@ -200,8 +200,26 @@ img {
 
 .photo-box img {
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  padding: 8px;
   width: 100%;
+}
+
+.no-photo {
+  color: oklch(28% 0.02 100);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.detail-no-photo {
+  align-self: start;
+  border: 1px solid var(--line);
+  display: grid;
+  min-height: 72px;
+  place-items: center;
 }
 
 .inventory-card h2 {
@@ -466,7 +484,7 @@ img {
 .detail-thumb img,
 .detail-image img {
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   width: 100%;
 }
 
@@ -483,8 +501,23 @@ img {
   overflow: hidden;
 }
 
+.detail-image.has-no-image {
+  display: grid;
+  place-items: center;
+}
+
+.detail-image.has-no-image::before {
+  color: oklch(28% 0.02 100);
+  content: "No photos yet";
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .detail-image img {
-  object-fit: cover;
+  object-fit: contain;
+  padding: 10px;
 }
 
 .detail-copy {

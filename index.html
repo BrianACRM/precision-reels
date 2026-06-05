@@ -54,26 +54,21 @@
 
       <section class="detail-panel" id="details" aria-live="polite">
         <button class="close-detail" type="button" aria-label="Close details">Close</button>
-        <div class="detail-gallery">
-          <button class="detail-thumb is-active" type="button">
-            <img id="detailThumb" src="./assets/pgm22.png" alt="" />
-          </button>
-          <button class="detail-thumb" type="button">
-            <img id="detailThumbTwo" src="./assets/pgm22-field-1.jpg" alt="" />
-          </button>
-          <button class="detail-thumb" type="button">
-            <img id="detailThumbThree" src="./assets/pgm22-field-2.jpg" alt="" />
-          </button>
-        </div>
+        <div class="detail-gallery" id="detailGallery"></div>
 
         <div class="detail-image">
-          <img id="detailImage" src="./assets/pgm22.png" alt="Selected mower" />
+          <img id="detailImage" alt="Selected mower" />
         </div>
 
         <article class="detail-copy">
           <h2 id="detailTitle">2017 Jacobsen PGM22 Walk Reel</h2>
           <p class="detail-price" id="detailPrice">$4,850.00</p>
           <p class="shipping">Pickup or shipping quote confirmed with seller.</p>
+
+          <div class="description">
+            <h3>Description</h3>
+            <dl id="detailSpecs"></dl>
+          </div>
 
           <form class="inline-inquiry">
             <h3>Inquire to buy</h3>
@@ -82,11 +77,6 @@
             <textarea id="detailMessage" name="message" placeholder="I am interested in this mower."></textarea>
             <a class="email-action" id="emailAction" href="mailto:brandon@precisionreels.com">Contact Precision Reels</a>
           </form>
-
-          <div class="description">
-            <h3>Description</h3>
-            <dl id="detailSpecs"></dl>
-          </div>
         </article>
       </section>
 

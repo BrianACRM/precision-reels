@@ -215,7 +215,8 @@ a {
 .image-drop img {
   display: none;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  padding: 8px;
   position: absolute;
   width: 100%;
 }
@@ -273,15 +274,45 @@ select {
 
 .image-strip {
   display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.image-strip-item {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  display: grid;
   gap: 8px;
-  grid-template-columns: repeat(4, 1fr);
+  padding: 8px;
 }
 
 .image-strip img {
   aspect-ratio: 1;
   background: oklch(86% 0.012 88);
-  object-fit: cover;
+  object-fit: contain;
   width: 100%;
+}
+
+.image-strip-actions {
+  display: grid;
+  gap: 5px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.image-strip-actions button {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.62rem;
+  font-weight: 900;
+  min-height: 30px;
+  text-transform: uppercase;
+}
+
+.image-strip-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
 }
 
 .form-actions {
@@ -347,6 +378,21 @@ select {
   position: relative;
 }
 
+.admin-card.has-no-image::before {
+  align-items: center;
+  background: oklch(86% 0.012 88);
+  color: oklch(18% 0.012 145);
+  content: "No photos yet";
+  display: grid;
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  min-height: 168px;
+  padding: 12px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 .admin-card:hover {
   border-color: var(--orange);
 }
@@ -371,7 +417,8 @@ select {
   background: oklch(86% 0.012 88);
   height: 100%;
   min-height: 168px;
-  object-fit: cover;
+  object-fit: contain;
+  padding: 8px;
   width: 100%;
 }
 
@@ -461,18 +508,55 @@ select {
   width: 36px;
 }
 
+.dialog-viewer {
+  background: oklch(86% 0.012 88);
+  margin-bottom: 12px;
+  min-height: 180px;
+}
+
+.dialog-viewer img {
+  aspect-ratio: 1.45;
+  object-fit: contain;
+  padding: 10px;
+  width: 100%;
+}
+
 .dialog-gallery {
   display: grid;
   gap: 10px;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
   margin-bottom: 18px;
 }
 
-.dialog-gallery img {
-  aspect-ratio: 1.1;
+.dialog-thumb {
+  background: transparent;
+  border: 1px solid var(--line);
+  cursor: pointer;
+  padding: 0;
+}
+
+.dialog-thumb.is-active {
+  border-color: var(--orange);
+}
+
+.dialog-thumb img {
+  aspect-ratio: 1.2;
   background: oklch(86% 0.012 88);
-  object-fit: cover;
+  object-fit: contain;
+  padding: 5px;
   width: 100%;
+}
+
+.dialog-empty {
+  border: 1px solid var(--line);
+  color: var(--muted);
+  display: grid;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  min-height: 62px;
+  place-items: center;
+  text-transform: uppercase;
 }
 
 .listing-dialog h2 {

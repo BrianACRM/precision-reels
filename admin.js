@@ -1,29 +1,4 @@
-const sampleListings = [
-  {
-    id: "sample-1",
-    images: ["./assets/pgm22.png", "./assets/pgm22-field-2.jpg"],
-    make: "Jacobsen",
-    year: "2017",
-    model: "PGM22 Walk Reel",
-    price: "$4,850",
-    note: "22 inch walk-behind reel mower example. Pickup or freight quote confirmed with seller.",
-    specs: "22 inch walk-behind reel mower example. Pickup or freight quote confirmed with seller.",
-    stock_number: "JM-017",
-    status: "Available"
-  },
-  {
-    id: "sample-2",
-    images: ["./assets/eclipse-2.png", "./assets/eclipse-2-field.jpg"],
-    make: "Jacobsen",
-    year: "2020",
-    model: "Eclipse 2",
-    price: "$3,950",
-    note: "Battery walk mower example with room for condition notes and accessories.",
-    specs: "Battery walk mower example with room for condition notes and accessories.",
-    stock_number: "JM-020",
-    status: "Available"
-  }
-];
+const sampleListings = [];
 
 const client = window.precisionSupabase;
 const config = window.PRECISION_CONFIG || {};
@@ -42,6 +17,7 @@ const imagePrompt = document.querySelector("#imagePrompt");
 const imageStrip = document.querySelector("#imageStrip");
 const dialog = document.querySelector("#listingDialog");
 const dialogGallery = document.querySelector("#dialogGallery");
+const dialogMainImage = document.querySelector("#dialogMainImage");
 const dialogTitle = document.querySelector("#dialogTitle");
 const dialogFields = document.querySelector("#dialogFields");
 const editListingButton = document.querySelector("#editListingButton");
@@ -132,7 +108,7 @@ async function loadListings() {
 }
 
 function publicImageUrl(path) {
-  if (!path) return "./assets/pgm22.png";
+  if (!path) return "";
   if (path.startsWith("./") || path.startsWith("assets/") || path.startsWith("http")) return path;
   return client.storage.from(config.imageBucket).getPublicUrl(path).data.publicUrl;
 }
@@ -148,15 +124,23 @@ function renderListings() {
     const title = node.querySelector("h2");
     const fields = node.querySelector(".card-fields");
     const remove = node.querySelector(".remove-button");
-    const primaryImage = listing.images?.[0] || "./assets/pgm22.png";
+    const primaryImage = listing.images?.[0];
 
-    image.src = primaryImage;
     image.alt = listingTitle(listing);
+    if (primaryImage) {
+      image.src = primaryImage;
+      image.hidden = false;
+      card.classList.remove("has-no-image");
+    } else {
+      image.removeAttribute("src");
+      image.hidden = true;
+      card.classList.add("has-no-image");
+    }
     title.textContent = listing.make || "Jacobsen";
     fields.innerHTML = fieldRows([
       ["Model", listing.model],
       ["Year", listing.year],
-      ["Price", listing.price],
+      ["Price", normalizePrice(listing.price)],
       ["Specs", listing.specs || listing.note],
       ["Stock #", listing.stock_number || "No stock #"]
     ]);
@@ -204,12 +188,36 @@ function renderSelectedImages() {
       imagePreview.parentElement.classList.add("has-image");
       imagePrompt.textContent = `${uploadedFiles.length} selected`;
     }
-    const img = document.createElement("img");
-    img.src = src;
-    img.alt = "Selected mower preview";
-    imageStrip.appendChild(img);
+    const item = document.createElement("div");
+    item.className = "image-strip-item";
+    item.innerHTML = `
+      <img src="${src}" alt="Selected mower preview ${index + 1}" />
+      <div class="image-strip-actions">
+        <button type="button" data-action="left" data-index="${index}" ${index === 0 ? "disabled" : ""}>Left</button>
+        <button type="button" data-action="right" data-index="${index}" ${index === uploadedFiles.length - 1 ? "disabled" : ""}>Right</button>
+        <button type="button" data-action="remove" data-index="${index}">Remove</button>
+      </div>
+    `;
+    imageStrip.appendChild(item);
   });
 }
+
+imageStrip.addEventListener("click", (event) => {
+  const button = event.target.closest("button");
+  if (!button) return;
+
+  const index = Number(button.dataset.index);
+  if (button.dataset.action === "left" && index > 0) {
+    [uploadedFiles[index - 1], uploadedFiles[index]] = [uploadedFiles[index], uploadedFiles[index - 1]];
+  }
+  if (button.dataset.action === "right" && index < uploadedFiles.length - 1) {
+    [uploadedFiles[index + 1], uploadedFiles[index]] = [uploadedFiles[index], uploadedFiles[index + 1]];
+  }
+  if (button.dataset.action === "remove") {
+    uploadedFiles.splice(index, 1);
+  }
+  renderSelectedImages();
+});
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -226,7 +234,7 @@ form.addEventListener("submit", async (event) => {
     make: formData.get("make").trim(),
     year: formData.get("year").trim(),
     model: formData.get("model").trim(),
-    price: formData.get("price").trim(),
+    price: normalizePrice(formData.get("price")),
     specs: formData.get("specs").trim(),
     note: formData.get("specs").trim(),
     stock_number: formData.get("stock").trim() || `JM-${String(Date.now()).slice(-4)}`,
@@ -235,6 +243,7 @@ form.addEventListener("submit", async (event) => {
     updated_at: new Date().toISOString()
   };
 
+  const existingImageCount = editingId ? listings.find((item) => item.id === editingId)?.images?.length || 0 : 0;
   const saved = editingId ? await updateListing(listing) : await createListing(listing);
   submitListingButton.disabled = false;
 
@@ -243,7 +252,7 @@ form.addEventListener("submit", async (event) => {
     return;
   }
 
-  await uploadImages(saved.id);
+  await uploadImages(saved.id, existingImageCount);
   resetForm();
   await loadListings();
 });
@@ -266,7 +275,7 @@ async function updateListing(listing) {
   return data;
 }
 
-async function uploadImages(listingId) {
+async function uploadImages(listingId, startOrder = 0) {
   for (let i = 0; i < uploadedFiles.length; i += 1) {
     const file = uploadedFiles[i];
     const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
@@ -282,24 +291,57 @@ async function uploadImages(listingId) {
     await client.from("listing_images").insert({
       listing_id: listingId,
       path,
-      sort_order: i
+      sort_order: startOrder + i
     });
   }
 }
 
 function openListing(listing) {
   activeListing = listing;
-  const images = listing.images?.length ? listing.images : ["./assets/pgm22.png"];
-  dialogGallery.innerHTML = images.map((src) => `<img src="${escapeHtml(src)}" alt="${escapeHtml(listing.model)}" />`).join("");
+  const images = listing.images?.filter(Boolean) || [];
+  renderDialogGallery(images, listingTitle(listing));
   dialogTitle.textContent = listing.make || "Jacobsen";
   dialogFields.innerHTML = fieldRows([
     ["Model", listing.model],
     ["Year", listing.year],
-    ["Price", listing.price],
+    ["Price", normalizePrice(listing.price)],
     ["Specs", listing.specs || listing.note],
     ["Stock #", listing.stock_number || "No stock #"]
   ]);
   dialog.showModal();
+}
+
+function renderDialogGallery(images, title) {
+  dialogMainImage.alt = title;
+  if (!images.length) {
+    dialogMainImage.removeAttribute("src");
+    dialogMainImage.hidden = true;
+    dialogMainImage.parentElement.hidden = true;
+    dialogGallery.innerHTML = `<span class="dialog-empty">No photos yet</span>`;
+    return;
+  }
+
+  dialogMainImage.parentElement.hidden = false;
+  dialogMainImage.src = images[0];
+  dialogMainImage.hidden = false;
+  dialogGallery.innerHTML = images
+    .map(
+      (src, index) => `
+        <button class="dialog-thumb${index === 0 ? " is-active" : ""}" type="button" data-image-index="${index}">
+          <img src="${escapeHtml(src)}" alt="${escapeHtml(title)} photo ${index + 1}" />
+        </button>
+      `
+    )
+    .join("");
+
+  dialogGallery.querySelectorAll(".dialog-thumb").forEach((button) => {
+    button.addEventListener("click", () => {
+      const src = images[Number(button.dataset.imageIndex)] || images[0];
+      dialogMainImage.src = src;
+      dialogGallery.querySelectorAll(".dialog-thumb").forEach((thumb) => thumb.classList.remove("is-active"));
+      button.classList.add("is-active");
+    });
+  });
 }
 
 editListingButton.addEventListener("click", () => {
@@ -343,6 +385,12 @@ function resetEditMode() {
 
 function listingTitle(listing) {
   return `${listing.make || "Jacobsen"} ${listing.model} ${listing.year}`.trim();
+}
+
+function normalizePrice(value = "") {
+  const clean = String(value).trim();
+  if (!clean) return "$0";
+  return clean.startsWith("$") ? clean : `$${clean}`;
 }
 
 function fieldRows(rows) {
