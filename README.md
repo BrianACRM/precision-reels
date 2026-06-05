@@ -1,16 +1,30 @@
-# Jacobsen Reel Mower Inventory Prototype
+# Precision Reels
 
-Standalone static sales site for Jacobsen mower inventory.
+Standalone website and admin system for walk-behind reel mower inventory.
 
-Current prototype:
+## Static demo
 
-- Product-detail layout with mower image rail.
-- Example listing text modeled after ecommerce mower listings.
-- Actual Jacobsen product imagery stored in `assets/`.
-- Frontend-only product switching.
+The repository root is a static GitHub Pages demo:
 
-Future admin:
+- `index.html`
+- `admin.html`
+- `styles.css`
+- `admin.css`
 
-- Add, edit, mark sold, and delete mower listings.
-- Upload multiple photos per mower.
-- Store year, model, price, hours, reel details, included accessories, and condition notes.
+## SiteGround app
+
+The production-ready PHP/MySQL version is in `siteground/`.
+
+It includes:
+
+- Login-protected admin
+- PHP sessions with HTTP-only cookies
+- CSRF protection
+- MySQL listings and listing images
+- Add, edit, delete, and mark sold
+- Multiple image uploads
+- Stock numbers and listing status
+- Upload validation and non-executable upload folder
+- PWA manifest and service worker
+
+See `siteground/README.md` for deployment steps.
