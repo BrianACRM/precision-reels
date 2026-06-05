@@ -1,6 +1,5 @@
-const contactEmail = window.PRECISION_CONFIG?.contactEmail || "brandon@precisionreels.com";
-const supabaseClient = window.precisionSupabase;
-const supabaseConfig = window.PRECISION_CONFIG || {};
+const supabaseConfig = window.PRECISION_SUPABASE || {};
+const contactEmail = supabaseConfig.contactEmail || "brandon@precisionreels.com";
 
 const fallbackProducts = [];
 
@@ -19,7 +18,7 @@ let products = fallbackProducts;
 initInventory();
 
 async function initInventory() {
-  if (window.PRECISION_SUPABASE_READY) {
+  if (supabaseConfig.url && supabaseConfig.anonKey) {
     const liveListings = await fetchLiveListings();
     products = liveListings;
   }
@@ -29,18 +28,24 @@ async function initInventory() {
 }
 
 async function fetchLiveListings() {
-  const { data, error } = await supabaseClient
-    .from("listings")
-    .select("*, listing_images(*)")
-    .in("status", ["Available", "Pending"])
-    .order("sort_order", { ascending: true })
-    .order("created_at", { ascending: false });
+  const endpoint = new URL(`${supabaseConfig.url}/rest/v1/listings`);
+  endpoint.searchParams.set("select", "*,listing_images(*)");
+  endpoint.searchParams.set("status", "in.(Available,Pending)");
+  endpoint.searchParams.set("order", "sort_order.asc,created_at.desc");
 
-  if (error) {
-    console.warn(error.message);
+  const response = await fetch(endpoint, {
+    headers: {
+      apikey: supabaseConfig.anonKey,
+      Authorization: `Bearer ${supabaseConfig.anonKey}`
+    }
+  });
+
+  if (!response.ok) {
+    console.warn(`Inventory request failed: ${response.status}`);
     return [];
   }
 
+  const data = await response.json();
   return data.map((listing) => ({
     ...listing,
     images: (listing.listing_images || [])
@@ -61,8 +66,17 @@ function imageUrls(path) {
 function publicImageUrl(path, transform) {
   if (!path) return "";
   if (path.startsWith("./") || path.startsWith("assets/") || path.startsWith("http")) return path;
-  const options = transform ? { transform, download: false } : undefined;
-  return supabaseClient.storage.from(supabaseConfig.imageBucket).getPublicUrl(path, options).data.publicUrl;
+  const safePath = String(path).split("/").map(encodeURIComponent).join("/");
+  const bucket = encodeURIComponent(supabaseConfig.imageBucket);
+  if (!transform) return `${supabaseConfig.url}/storage/v1/object/public/${bucket}/${safePath}`;
+
+  const params = new URLSearchParams({
+    width: String(transform.width),
+    height: String(transform.height),
+    quality: String(transform.quality),
+    resize: "contain"
+  });
+  return `${supabaseConfig.url}/storage/v1/render/image/public/${bucket}/${safePath}?${params}`;
 }
 
 function renderInventory(items) {

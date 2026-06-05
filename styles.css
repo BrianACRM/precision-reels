@@ -672,8 +672,16 @@ dd {
 
 @media (max-width: 860px) {
   .showroom-hero {
-    min-height: clamp(430px, 62vh, 560px);
-    padding-bottom: 64px;
+    min-height: auto;
+    padding-bottom: 18px;
+  }
+
+  .inventory-intro {
+    padding-bottom: 28px;
+  }
+
+  .inventory-heading {
+    padding-top: 18px;
   }
 
   .inventory-grid {
@@ -790,3 +798,14 @@ dd {
     grid-template-columns: 1fr;
   }
 }
+  .showroom-hero {
+    padding-bottom: 8px;
+  }
+
+  .inventory-intro {
+    padding-bottom: 22px;
+  }
+
+  .inventory-heading {
+    padding-top: 14px;
+  }
