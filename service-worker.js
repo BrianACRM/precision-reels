@@ -1,8 +1,5 @@
-const CACHE_NAME = "precision-reels-v2";
+const CACHE_NAME = "precision-reels-v3";
 const APP_SHELL = [
-  "/",
-  "/index.html",
-  "/contact.html",
   "/styles.css",
   "/script.js",
   "/contact.js",
@@ -28,6 +25,14 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
+  if (event.request.mode === "navigate" || event.request.headers.get("accept")?.includes("text/html")) {
+    event.respondWith(
+      fetch(event.request).catch(
+        () => new Response("Precision Reels is temporarily offline.", { status: 503, headers: { "Content-Type": "text/plain" } })
+      )
+    );
+    return;
+  }
   event.respondWith(
     fetch(event.request)
       .then((response) => {

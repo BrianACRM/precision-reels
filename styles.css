@@ -275,19 +275,19 @@ img {
 
 .contact-shell {
   min-height: 100vh;
-  padding: clamp(24px, 5vw, 70px);
+  padding: clamp(18px, 4vw, 48px);
 }
 
 .contact-header {
-  margin: 0 auto clamp(28px, 5vw, 54px);
-  max-width: 980px;
+  margin: 0 auto clamp(22px, 4vw, 38px);
+  max-width: 720px;
   text-align: center;
 }
 
 .contact-logo {
   height: auto;
-  margin: 0 auto 26px;
-  max-width: min(620px, 88vw);
+  margin: 0 auto 18px;
+  max-width: min(520px, 86vw);
 }
 
 .contact-header p {
@@ -301,10 +301,10 @@ img {
 
 .contact-header h1 {
   color: var(--strong);
-  font-size: clamp(2.4rem, 7vw, 6rem);
-  font-weight: 500;
+  font-size: clamp(1.65rem, 7vw, 3.15rem);
+  font-weight: 700;
   letter-spacing: 0;
-  line-height: 0.92;
+  line-height: 1.04;
   margin: 0;
   text-transform: uppercase;
 }
@@ -325,8 +325,8 @@ img {
 .contact-card h2,
 .contact-form h2 {
   color: var(--strong);
-  font-size: 1.3rem;
-  font-weight: 500;
+  font-size: 1.15rem;
+  font-weight: 700;
   margin: 0;
   text-transform: uppercase;
 }
@@ -603,6 +603,21 @@ dd {
 }
 
 @media (max-width: 520px) {
+  .contact-shell {
+    padding: 16px;
+  }
+
+  .contact-header h1 {
+    font-size: 1.85rem;
+  }
+
+  .contact-form {
+    border-left: 0;
+    border-right: 0;
+    margin-left: -16px;
+    margin-right: -16px;
+  }
+
   .inventory-grid {
     gap: 30px 18px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
