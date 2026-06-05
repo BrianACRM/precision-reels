@@ -1,5 +1,6 @@
 .supabase-db-password.local
 .precision-admin-password.local
 .seed-live-listings.local.sql
+.precision-migration.local.sql
 .supabase/
 supabase/

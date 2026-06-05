@@ -49,41 +49,35 @@
           </label>
           <div class="image-strip" id="imageStrip" aria-label="Selected image previews"></div>
 
-          <div class="field-grid">
-            <label>
-              Year
-              <input name="year" type="text" placeholder="2017" required />
-            </label>
-            <label>
-              Price
-              <input name="price" type="text" placeholder="$4,850" required />
-            </label>
-          </div>
+          <label>
+            Make
+            <input name="make" type="text" placeholder="Jacobsen" required />
+          </label>
 
           <label>
             Model
-            <input name="model" type="text" placeholder="Jacobsen PGM22 Walk Reel" required />
+            <input name="model" type="text" placeholder="PGM22 Walk Reel" required />
           </label>
 
           <label>
-            Short note
-            <textarea name="note" placeholder="22 inch walk-behind reel mower. Includes catcher and transport wheels." required></textarea>
+            Year
+            <input name="year" type="text" placeholder="2017" required />
           </label>
 
-          <div class="field-grid">
-            <label>
-              Stock #
-              <input name="stock" type="text" placeholder="JM-017" />
-            </label>
-            <label>
-              Status
-              <select name="status">
-                <option>Available</option>
-                <option>Pending</option>
-                <option>Sold</option>
-              </select>
-            </label>
-          </div>
+          <label>
+            Price
+            <input name="price" type="text" placeholder="$4,850" required />
+          </label>
+
+          <label>
+            Specs
+            <textarea name="specs" placeholder="22 inch walk-behind reel mower. Includes catcher and transport wheels." required></textarea>
+          </label>
+
+          <label>
+            Stock #
+            <input name="stock" type="text" placeholder="PR-017" />
+          </label>
 
           <div class="form-actions">
             <button id="submitListingButton" type="submit">Add listing</button>
@@ -109,11 +103,8 @@
         <button class="remove-button" type="button" aria-label="Remove listing">X</button>
         <img class="card-image" alt="" />
         <div class="card-copy">
-          <span class="stock-pill"></span>
           <h2></h2>
-          <strong class="card-price"></strong>
-          <p></p>
-          <span class="status-pill"></span>
+          <dl class="card-fields"></dl>
         </div>
       </article>
     </template>
@@ -122,13 +113,10 @@
       <button class="dialog-close" type="button" aria-label="Close listing">X</button>
       <div class="dialog-gallery" id="dialogGallery"></div>
       <div>
-        <span class="stock-pill" id="dialogStock"></span>
         <h2 id="dialogTitle"></h2>
-        <strong id="dialogPrice"></strong>
-        <p id="dialogNote"></p>
+        <dl class="dialog-fields" id="dialogFields"></dl>
         <div class="dialog-actions">
           <button id="editListingButton" type="button">Edit listing</button>
-          <button id="markSoldButton" type="button">Mark sold</button>
         </div>
       </div>
     </dialog>

@@ -6,40 +6,48 @@ const fallbackProducts = [
   {
     id: "demo-pgm-2017",
     images: ["./assets/pgm22-field-1.jpg", "./assets/pgm22.png", "./assets/pgm22-field-2.jpg"],
+    make: "Jacobsen",
     year: "2017",
-    model: "Jacobsen PGM22 Walk Reel",
+    model: "PGM22 Walk Reel",
     price: "$4,850.00",
     note: "22 inch walk-behind reel mower example. Pickup or freight quote confirmed with seller.",
+    specs: "22 inch walk-behind reel mower example. Pickup or freight quote confirmed with seller.",
     stock_number: "JM-017",
     status: "Available"
   },
   {
     id: "demo-eclipse-2020",
     images: ["./assets/eclipse-2-field.jpg", "./assets/eclipse-2.png"],
+    make: "Jacobsen",
     year: "2020",
-    model: "Jacobsen Eclipse 2",
+    model: "Eclipse 2",
     price: "$3,950.00",
     note: "Battery walk mower example with room for condition notes and accessories.",
+    specs: "Battery walk mower example with room for condition notes and accessories.",
     stock_number: "JM-020",
     status: "Available"
   },
   {
     id: "demo-pgm-2019",
     images: ["./assets/pgm22-field-2.jpg", "./assets/pgm22-field-1.jpg"],
+    make: "Jacobsen",
     year: "2019",
-    model: "Jacobsen PGM 22 Walk Reel",
+    model: "PGM 22 Walk Reel",
     price: "$3,650.00",
     note: "Walk-behind reel mower example with room for blade count and accessories.",
+    specs: "Walk-behind reel mower example with room for blade count and accessories.",
     stock_number: "JM-019",
     status: "Available"
   },
   {
     id: "demo-pgm-2018",
     images: ["./assets/pgm22.png", "./assets/pgm22-field-1.jpg"],
+    make: "Jacobsen",
     year: "2018",
-    model: "Jacobsen PGM22 Walk Reel",
+    model: "PGM22 Walk Reel",
     price: "$5,250.00",
     note: "Placeholder listing for seller-uploaded photos and condition notes.",
+    specs: "Placeholder listing for seller-uploaded photos and condition notes.",
     stock_number: "JM-018",
     status: "Pending"
   }
@@ -103,16 +111,19 @@ function renderInventory(items) {
     .map((item, index) => {
       const image = item.images?.[0] || "./assets/pgm22.png";
       const title = listingTitle(item);
-      const stock = item.stock_number ? `<span class="card-stock">${escapeHtml(item.stock_number)}</span>` : "";
       return `
         <article class="inventory-card" tabindex="0" data-index="${index}">
           <div class="photo-box">
             <img src="${escapeHtml(image)}" alt="${escapeHtml(title)}" loading="${index < 2 ? "eager" : "lazy"}" />
           </div>
-          ${stock}
-          <h2>${escapeHtml(title)}</h2>
-          <p class="price">${escapeHtml(item.price)}</p>
-          <p class="card-note">${escapeHtml(item.note)}</p>
+          <h2>${escapeHtml(item.make || "Jacobsen")}</h2>
+          <dl class="card-fields">
+            <div><dt>Model</dt><dd>${escapeHtml(item.model)}</dd></div>
+            <div><dt>Year</dt><dd>${escapeHtml(item.year)}</dd></div>
+            <div><dt>Price</dt><dd>${escapeHtml(item.price)}</dd></div>
+            <div><dt>Specs</dt><dd>${escapeHtml(item.specs || item.note)}</dd></div>
+            <div><dt>Stock #</dt><dd>${escapeHtml(item.stock_number || "Contact")}</dd></div>
+          </dl>
           <button type="button">Inquire to buy</button>
         </article>
       `;
@@ -142,11 +153,12 @@ function openProduct(product) {
   detailMessage.value = `I am interested in ${title}${product.stock_number ? `, stock ${product.stock_number}` : ""}.`;
   emailAction.href = inquiryHref(product);
   detailSpecs.innerHTML = [
-    ["Stock #", product.stock_number || "Contact Precision Reels"],
-    ["Status", product.status || "Available"],
-    ["Year", product.year],
+    ["Make", product.make || "Jacobsen"],
     ["Model", product.model],
-    ["Notes", product.note]
+    ["Year", product.year],
+    ["Price", product.price],
+    ["Specs", product.specs || product.note],
+    ["Stock #", product.stock_number || "Contact Precision Reels"]
   ]
     .map(([term, value]) => `<div><dt>${escapeHtml(term)}:</dt><dd>${escapeHtml(value)}</dd></div>`)
     .join("");
@@ -184,7 +196,7 @@ function inquiryHref(product) {
 }
 
 function listingTitle(product) {
-  return `${product.year} ${product.model}`.trim();
+  return `${product.make || "Jacobsen"} ${product.model} ${product.year}`.trim();
 }
 
 function escapeHtml(value = "") {

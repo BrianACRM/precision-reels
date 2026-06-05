@@ -377,8 +377,7 @@ select {
   padding: 14px;
 }
 
-.stock-pill,
-.status-pill {
+.stock-pill {
   color: var(--orange);
   font-size: 0.74rem;
   font-weight: 900;
@@ -393,30 +392,39 @@ select {
   margin: 0;
 }
 
-.card-price {
-  color: var(--orange);
-  font-size: 1rem;
+.card-fields {
+  display: grid;
+  gap: 7px;
+  margin: 0;
 }
 
-.card-copy p,
+.card-fields div {
+  display: grid;
+  gap: 4px;
+  grid-template-columns: 68px minmax(0, 1fr);
+}
+
+.card-fields dt {
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.card-fields dd {
+  color: var(--paper);
+  font-size: 0.9rem;
+  line-height: 1.35;
+  margin: 0;
+  min-width: 0;
+}
+
 .listing-dialog p {
   color: var(--muted);
   font-size: 0.94rem;
   line-height: 1.42;
   margin: 0;
-}
-
-.status-pill {
-  color: var(--paper);
-  margin-top: 2px;
-}
-
-.status-pill[data-status="sold"] {
-  color: oklch(68% 0.18 29);
-}
-
-.status-pill[data-status="pending"] {
-  color: oklch(78% 0.14 82);
 }
 
 .listing-dialog {
@@ -465,11 +473,30 @@ select {
   margin: 8px 0;
 }
 
-#dialogPrice {
+.dialog-fields {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.dialog-fields div {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 90px minmax(0, 1fr);
+}
+
+.dialog-fields dt {
   color: var(--orange);
-  display: block;
-  font-size: 1.3rem;
-  margin-bottom: 12px;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.dialog-fields dd {
+  color: var(--paper);
+  line-height: 1.45;
+  margin: 0;
 }
 
 .dialog-actions {

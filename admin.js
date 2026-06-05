@@ -2,20 +2,24 @@ const sampleListings = [
   {
     id: "sample-1",
     images: ["./assets/pgm22.png", "./assets/pgm22-field-2.jpg"],
+    make: "Jacobsen",
     year: "2017",
-    model: "Jacobsen PGM22 Walk Reel",
+    model: "PGM22 Walk Reel",
     price: "$4,850",
     note: "22 inch walk-behind reel mower example. Pickup or freight quote confirmed with seller.",
+    specs: "22 inch walk-behind reel mower example. Pickup or freight quote confirmed with seller.",
     stock_number: "JM-017",
     status: "Available"
   },
   {
     id: "sample-2",
     images: ["./assets/eclipse-2.png", "./assets/eclipse-2-field.jpg"],
+    make: "Jacobsen",
     year: "2020",
-    model: "Jacobsen Eclipse 2",
+    model: "Eclipse 2",
     price: "$3,950",
     note: "Battery walk mower example with room for condition notes and accessories.",
+    specs: "Battery walk mower example with room for condition notes and accessories.",
     stock_number: "JM-020",
     status: "Available"
   }
@@ -38,12 +42,9 @@ const imagePrompt = document.querySelector("#imagePrompt");
 const imageStrip = document.querySelector("#imageStrip");
 const dialog = document.querySelector("#listingDialog");
 const dialogGallery = document.querySelector("#dialogGallery");
-const dialogStock = document.querySelector("#dialogStock");
 const dialogTitle = document.querySelector("#dialogTitle");
-const dialogPrice = document.querySelector("#dialogPrice");
-const dialogNote = document.querySelector("#dialogNote");
+const dialogFields = document.querySelector("#dialogFields");
 const editListingButton = document.querySelector("#editListingButton");
-const markSoldButton = document.querySelector("#markSoldButton");
 const cancelEditButton = document.querySelector("#cancelEditButton");
 const submitListingButton = document.querySelector("#submitListingButton");
 const formModeLabel = document.querySelector("#formModeLabel");
@@ -138,29 +139,27 @@ function publicImageUrl(path) {
 
 function renderListings() {
   grid.innerHTML = "";
-  const activeCount = listings.filter((listing) => listing.status !== "Sold").length;
-  count.textContent = `${activeCount} active`;
+  count.textContent = `${listings.length} listings`;
 
   listings.forEach((listing) => {
     const node = template.content.cloneNode(true);
     const card = node.querySelector(".admin-card");
     const image = node.querySelector(".card-image");
     const title = node.querySelector("h2");
-    const price = node.querySelector(".card-price");
-    const note = node.querySelector("p");
-    const stock = node.querySelector(".stock-pill");
-    const status = node.querySelector(".status-pill");
+    const fields = node.querySelector(".card-fields");
     const remove = node.querySelector(".remove-button");
     const primaryImage = listing.images?.[0] || "./assets/pgm22.png";
 
     image.src = primaryImage;
     image.alt = listingTitle(listing);
-    stock.textContent = listing.stock_number || "No stock #";
-    title.textContent = listingTitle(listing);
-    price.textContent = listing.price;
-    note.textContent = listing.note;
-    status.textContent = listing.status || "Available";
-    status.dataset.status = status.textContent.toLowerCase();
+    title.textContent = listing.make || "Jacobsen";
+    fields.innerHTML = fieldRows([
+      ["Model", listing.model],
+      ["Year", listing.year],
+      ["Price", listing.price],
+      ["Specs", listing.specs || listing.note],
+      ["Stock #", listing.stock_number || "No stock #"]
+    ]);
 
     card.addEventListener("click", () => openListing(listing));
     card.addEventListener("keydown", (event) => {
@@ -224,12 +223,14 @@ form.addEventListener("submit", async (event) => {
 
   const formData = new FormData(form);
   const listing = {
+    make: formData.get("make").trim(),
     year: formData.get("year").trim(),
     model: formData.get("model").trim(),
     price: formData.get("price").trim(),
-    note: formData.get("note").trim(),
+    specs: formData.get("specs").trim(),
+    note: formData.get("specs").trim(),
     stock_number: formData.get("stock").trim() || `JM-${String(Date.now()).slice(-4)}`,
-    status: formData.get("status"),
+    status: "Available",
     sort_order: 0,
     updated_at: new Date().toISOString()
   };
@@ -290,12 +291,14 @@ function openListing(listing) {
   activeListing = listing;
   const images = listing.images?.length ? listing.images : ["./assets/pgm22.png"];
   dialogGallery.innerHTML = images.map((src) => `<img src="${escapeHtml(src)}" alt="${escapeHtml(listing.model)}" />`).join("");
-  dialogStock.textContent = listing.stock_number || "No stock #";
-  dialogTitle.textContent = listingTitle(listing);
-  dialogPrice.textContent = listing.price;
-  dialogNote.textContent = listing.note;
-  markSoldButton.disabled = listing.status === "Sold";
-  markSoldButton.textContent = listing.status === "Sold" ? "Sold" : "Mark sold";
+  dialogTitle.textContent = listing.make || "Jacobsen";
+  dialogFields.innerHTML = fieldRows([
+    ["Model", listing.model],
+    ["Year", listing.year],
+    ["Price", listing.price],
+    ["Specs", listing.specs || listing.note],
+    ["Stock #", listing.stock_number || "No stock #"]
+  ]);
   dialog.showModal();
 }
 
@@ -305,31 +308,16 @@ editListingButton.addEventListener("click", () => {
   startEdit(activeListing);
 });
 
-markSoldButton.addEventListener("click", async () => {
-  if (!activeListing) return;
-  if (!window.PRECISION_SUPABASE_READY) return alert("Supabase is not configured yet.");
-  const { error } = await client
-    .from("listings")
-    .update({ status: "Sold", updated_at: new Date().toISOString() })
-    .eq("id", activeListing.id);
-  if (error) {
-    alert(error.message);
-    return;
-  }
-  dialog.close();
-  await loadListings();
-});
-
 cancelEditButton.addEventListener("click", resetForm);
 
 function startEdit(listing) {
   editingId = listing.id;
+  form.make.value = listing.make || "Jacobsen";
+  form.model.value = listing.model;
   form.year.value = listing.year;
   form.price.value = listing.price;
-  form.model.value = listing.model;
-  form.note.value = listing.note;
+  form.specs.value = listing.specs || listing.note;
   form.stock.value = listing.stock_number || "";
-  form.status.value = listing.status || "Available";
   uploadedFiles = [];
   renderSelectedImages();
   formModeLabel.textContent = "Edit listing";
@@ -354,7 +342,13 @@ function resetEditMode() {
 }
 
 function listingTitle(listing) {
-  return `${listing.year} ${listing.model}`.trim();
+  return `${listing.make || "Jacobsen"} ${listing.model} ${listing.year}`.trim();
+}
+
+function fieldRows(rows) {
+  return rows
+    .map(([term, value]) => `<div><dt>${escapeHtml(term)}</dt><dd>${escapeHtml(value)}</dd></div>`)
+    .join("");
 }
 
 function escapeHtml(value = "") {

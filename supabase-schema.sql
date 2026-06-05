@@ -9,10 +9,12 @@ create table public.admin_profiles (
 create table public.listings (
   id uuid primary key default gen_random_uuid(),
   stock_number text not null unique,
+  make text not null default 'Jacobsen',
   year text not null,
   model text not null,
   price text not null,
   note text not null,
+  specs text not null default '',
   status text not null default 'Available' check (status in ('Available', 'Pending', 'Sold')),
   sort_order int not null default 0,
   created_at timestamptz not null default now(),

@@ -237,6 +237,31 @@ img {
   text-transform: uppercase;
 }
 
+.card-fields {
+  display: grid;
+  gap: 7px;
+  margin: 0 0 14px;
+}
+
+.card-fields div {
+  display: grid;
+  gap: 4px;
+  grid-template-columns: 68px minmax(0, 1fr);
+}
+
+.card-fields dt {
+  color: var(--muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+}
+
+.card-fields dd {
+  color: var(--text);
+  font-size: 0.86rem;
+  line-height: 1.35;
+  min-width: 0;
+}
+
 .inventory-card button,
 .inline-inquiry button,
 .email-action,
