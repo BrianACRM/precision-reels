@@ -145,6 +145,63 @@ img {
   display: block;
 }
 
+.seo-copy {
+  display: grid;
+  gap: clamp(18px, 3vw, 36px);
+  grid-template-columns: minmax(0, 1.2fr) minmax(240px, 0.8fr);
+  margin: 0 auto;
+  max-width: 1120px;
+  padding: 0 clamp(20px, 5vw, 60px) clamp(50px, 7vw, 86px);
+  position: relative;
+  z-index: 2;
+}
+
+.seo-copy > div {
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+}
+
+.seo-kicker {
+  color: var(--orange);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+}
+
+.seo-copy h2,
+.seo-copy h3 {
+  color: var(--strong);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.15;
+  margin: 0 0 12px;
+  text-transform: uppercase;
+}
+
+.seo-copy h2 {
+  font-size: clamp(1.25rem, 2.8vw, 2.1rem);
+}
+
+.seo-copy h3 {
+  font-size: clamp(1rem, 1.8vw, 1.22rem);
+}
+
+.seo-copy p {
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.seo-copy a {
+  color: var(--orange);
+  display: inline-block;
+  font-weight: 900;
+  margin-top: 16px;
+  text-transform: uppercase;
+}
+
 .inventory-status {
   color: var(--muted);
   font-size: 0.86rem;
@@ -622,6 +679,10 @@ dd {
   .inventory-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     justify-content: stretch;
+  }
+
+  .seo-copy {
+    grid-template-columns: 1fr;
   }
 
   .detail-panel {

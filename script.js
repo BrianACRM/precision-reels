@@ -25,6 +25,7 @@ async function initInventory() {
   }
 
   renderInventory(products);
+  injectInventoryStructuredData(products);
 }
 
 async function fetchLiveListings() {
@@ -183,6 +184,52 @@ function inquiryHref(product) {
     .filter(Boolean)
     .join("\n");
   return `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+function injectInventoryStructuredData(items) {
+  const existing = document.querySelector("#inventoryStructuredData");
+  existing?.remove();
+  if (!items.length) return;
+
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Used walk-behind greens mower inventory",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "Product",
+        name: listingTitle(item),
+        brand: {
+          "@type": "Brand",
+          name: item.make || "Jacobsen"
+        },
+        category: "Used walk-behind greens mower",
+        sku: item.stock_number || undefined,
+        image: item.images?.[0]?.full || item.images?.[0]?.detail || undefined,
+        description: item.specs || item.note || "Used walk-behind greens mower available from Precision Reels.",
+        offers: {
+          "@type": "Offer",
+          price: numericPrice(item.price),
+          priceCurrency: "USD",
+          availability: "https://schema.org/InStock",
+          url: "https://precisionreels.com/"
+        }
+      }
+    }))
+  };
+
+  const script = document.createElement("script");
+  script.id = "inventoryStructuredData";
+  script.type = "application/ld+json";
+  script.textContent = JSON.stringify(data);
+  document.head.appendChild(script);
+}
+
+function numericPrice(value = "") {
+  const number = String(value).replace(/[^\d.]/g, "");
+  return number || undefined;
 }
 
 function listingTitle(product) {
