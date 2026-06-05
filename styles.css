@@ -976,8 +976,205 @@ dd {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.rolux-catalog {
+  margin: 0 auto;
+  max-width: 1240px;
+  padding: clamp(34px, 6vw, 78px) clamp(18px, 5vw, 60px);
+}
+
+.rolux-catalog-alt {
+  background: oklch(97% 0.016 86 / 4%);
+  border-bottom: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  max-width: none;
+}
+
+.catalog-header {
+  margin: 0 auto clamp(22px, 4vw, 42px);
+  max-width: 880px;
+  text-align: center;
+}
+
+.catalog-header h2 {
+  color: var(--strong);
+  font-size: clamp(1.35rem, 3.8vw, 3rem);
+  line-height: 1.05;
+  margin: 0 0 12px;
+  text-transform: uppercase;
+}
+
+.catalog-header p:not(.seo-kicker) {
+  color: var(--muted);
+  font-size: clamp(0.98rem, 1.5vw, 1.12rem);
+  line-height: 1.55;
+  margin: 0 auto;
+  max-width: 760px;
+}
+
+.rolux-grid {
+  display: grid;
+  gap: clamp(18px, 3vw, 34px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.rolux-grid-two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 900px;
+}
+
+.rolux-card {
+  background: var(--deck);
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 70px oklch(8% 0.03 120 / 28%);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.rolux-image-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.rolux-image-pair figure,
+.rolux-image-wrap {
+  background:
+    radial-gradient(circle at 50% 18%, oklch(97% 0.018 86), oklch(82% 0.025 96) 72%);
+  margin: 0;
+  min-height: 190px;
+}
+
+.rolux-image-pair figure {
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+
+.rolux-image-pair figure:first-child {
+  border-right: 1px solid oklch(18% 0.022 108 / 16%);
+}
+
+.rolux-image-pair img,
+.rolux-image-wrap img {
+  aspect-ratio: 4 / 3;
+  height: 100%;
+  object-fit: contain;
+  padding: 12px;
+  width: 100%;
+}
+
+.rolux-image-pair figcaption {
+  background: oklch(12% 0.012 112 / 78%);
+  color: var(--strong);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  padding: 8px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.rolux-card-body {
+  display: grid;
+  gap: 13px;
+  padding: 18px;
+}
+
+.model-width {
+  color: var(--orange);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.rolux-card h3 {
+  color: var(--strong);
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  font-weight: 700;
+  line-height: 1;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.rolux-card p {
+  color: var(--muted);
+  line-height: 1.48;
+  margin: 0;
+}
+
+.rolux-specs {
+  border-top: 1px solid var(--line);
+  gap: 0;
+}
+
+.rolux-specs div {
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 92px minmax(0, 1fr);
+  padding: 9px 0;
+}
+
+.rolux-specs dt {
+  color: var(--muted);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+}
+
+.rolux-specs dd {
+  color: var(--text);
+  font-size: 0.88rem;
+}
+
+.rolux-card ul {
+  color: var(--muted);
+  display: grid;
+  gap: 7px;
+  line-height: 1.45;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.rolux-price {
+  color: var(--strong) !important;
+  font-weight: 900;
+}
+
+.rolux-card a {
+  background: var(--orange);
+  color: oklch(17% 0.025 98);
+  display: grid;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  min-height: 42px;
+  place-items: center;
+  text-transform: uppercase;
+}
+
 @media (max-width: 720px) {
   .landing-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rolux-grid,
+  .rolux-grid-two {
+    grid-template-columns: 1fr;
+  }
+
+  .rolux-image-pair {
+    grid-template-columns: 1fr;
+  }
+
+  .rolux-image-pair figure:first-child {
+    border-bottom: 1px solid oklch(18% 0.022 108 / 16%);
+    border-right: 0;
+  }
+
+  .rolux-specs div {
     grid-template-columns: 1fr;
   }
 }
