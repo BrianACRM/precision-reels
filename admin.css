@@ -1,0 +1,441 @@
+:root {
+  color-scheme: dark;
+  --bg: oklch(13% 0.008 145);
+  --panel: oklch(17% 0.01 145);
+  --panel-2: oklch(20% 0.012 145);
+  --paper: oklch(94% 0.012 88);
+  --muted: oklch(70% 0.018 94);
+  --line: oklch(94% 0.012 88 / 16%);
+  --orange: oklch(68% 0.18 55);
+  --danger: oklch(58% 0.2 29);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at 12% 6%, oklch(68% 0.18 55 / 12%), transparent 28%),
+    linear-gradient(135deg, oklch(16% 0.018 145), var(--bg));
+  color: var(--paper);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.admin-shell {
+  min-height: 100vh;
+  padding: clamp(16px, 3vw, 34px);
+}
+
+.admin-header {
+  align-items: end;
+  background:
+    linear-gradient(90deg, oklch(9% 0.01 145 / 94%), oklch(14% 0.012 145 / 86%));
+  border: 1px solid var(--line);
+  box-shadow: 0 22px 70px oklch(6% 0.025 145 / 26%);
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  margin-bottom: 22px;
+  padding: 16px;
+}
+
+.admin-logo {
+  display: block;
+  height: auto;
+  margin-bottom: 14px;
+  max-height: 58px;
+  max-width: min(300px, 70vw);
+  object-fit: contain;
+}
+
+.admin-header p,
+.form-heading span,
+.section-bar span {
+  color: var(--orange);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  margin: 0 0 7px;
+  text-transform: uppercase;
+}
+
+.admin-header h1 {
+  font-size: clamp(2rem, 5vw, 4.4rem);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 0.9;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.admin-header a {
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-weight: 800;
+  min-height: 40px;
+  padding: 10px 13px;
+  text-transform: uppercase;
+}
+
+.admin-board {
+  align-items: start;
+  display: grid;
+  gap: 22px;
+  grid-template-columns: minmax(320px, 390px) minmax(0, 1fr);
+}
+
+.listing-form,
+.inventory-admin {
+  background: oklch(15% 0.01 145 / 90%);
+  border: 1px solid var(--line);
+  box-shadow: 0 22px 70px oklch(6% 0.025 145 / 32%);
+}
+
+.listing-form {
+  display: grid;
+  gap: 12px;
+  max-height: calc(100vh - 126px);
+  overflow: auto;
+  padding: 18px;
+  position: sticky;
+  top: 16px;
+}
+
+.form-heading {
+  align-items: end;
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+}
+
+.form-heading strong {
+  font-size: 1.35rem;
+  font-weight: 500;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.form-note {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  margin: -2px 0 2px;
+}
+
+.image-drop {
+  align-items: center;
+  aspect-ratio: 1.42;
+  background:
+    linear-gradient(135deg, oklch(92% 0.012 88), oklch(78% 0.018 96));
+  color: oklch(18% 0.012 145);
+  cursor: pointer;
+  display: grid;
+  font-weight: 900;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  text-transform: uppercase;
+}
+
+.image-drop input {
+  display: none;
+}
+
+.image-drop img {
+  display: none;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  width: 100%;
+}
+
+.image-drop.has-image img {
+  display: block;
+}
+
+.image-drop.has-image span {
+  background: oklch(10% 0.012 145 / 76%);
+  color: var(--paper);
+  inset: auto 10px 10px auto;
+  padding: 8px 10px;
+  position: absolute;
+}
+
+.field-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+label {
+  color: var(--muted);
+  display: grid;
+  font-size: 0.76rem;
+  font-weight: 900;
+  gap: 7px;
+  letter-spacing: 0.08em;
+  min-width: 0;
+  text-transform: uppercase;
+}
+
+input,
+textarea,
+select {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--paper);
+  min-height: 44px;
+  min-width: 0;
+  padding: 10px 11px;
+  width: 100%;
+}
+
+textarea {
+  min-height: 84px;
+  resize: vertical;
+}
+
+select {
+  appearance: none;
+}
+
+.image-strip {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.image-strip img {
+  aspect-ratio: 1;
+  background: oklch(86% 0.012 88);
+  object-fit: cover;
+  width: 100%;
+}
+
+.listing-form > button {
+  background: var(--orange);
+  border: 0;
+  color: oklch(16% 0.018 80);
+  cursor: pointer;
+  font-weight: 900;
+  min-height: 48px;
+  text-transform: uppercase;
+}
+
+.inventory-admin {
+  min-height: 520px;
+  padding: 18px;
+}
+
+.section-bar {
+  align-items: end;
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.section-bar strong {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.admin-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
+}
+
+.admin-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  min-height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.admin-card:hover {
+  border-color: var(--orange);
+}
+
+.remove-button {
+  background: var(--danger);
+  border: 0;
+  color: var(--paper);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 900;
+  height: 36px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 36px;
+  z-index: 2;
+}
+
+.card-image {
+  aspect-ratio: 1.08;
+  background: oklch(86% 0.012 88);
+  height: auto;
+  object-fit: contain;
+  padding: 10px;
+  width: 100%;
+}
+
+.card-copy {
+  display: grid;
+  gap: 7px;
+  padding: 14px;
+}
+
+.stock-pill,
+.status-pill {
+  color: var(--orange);
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.card-copy h2 {
+  font-size: 1.05rem;
+  font-weight: 500;
+  line-height: 1.18;
+  margin: 0;
+}
+
+.card-price {
+  color: var(--orange);
+  font-size: 1rem;
+}
+
+.card-copy p,
+.listing-dialog p {
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.42;
+  margin: 0;
+}
+
+.status-pill {
+  color: var(--paper);
+  margin-top: 2px;
+}
+
+.status-pill[data-status="sold"] {
+  color: oklch(68% 0.18 29);
+}
+
+.status-pill[data-status="pending"] {
+  color: oklch(78% 0.14 82);
+}
+
+.listing-dialog {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--paper);
+  max-width: min(980px, calc(100vw - 28px));
+  padding: 18px;
+  width: 920px;
+}
+
+.listing-dialog::backdrop {
+  background: oklch(4% 0.012 145 / 72%);
+}
+
+.dialog-close {
+  background: var(--danger);
+  border: 0;
+  color: var(--paper);
+  cursor: pointer;
+  font-weight: 900;
+  height: 36px;
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  width: 36px;
+}
+
+.dialog-gallery {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  margin-bottom: 18px;
+}
+
+.dialog-gallery img {
+  aspect-ratio: 1.1;
+  background: oklch(86% 0.012 88);
+  object-fit: cover;
+  width: 100%;
+}
+
+.listing-dialog h2 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 500;
+  margin: 8px 0;
+}
+
+#dialogPrice {
+  color: var(--orange);
+  display: block;
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+}
+
+.dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.dialog-actions button {
+  background: var(--orange);
+  border: 0;
+  color: oklch(16% 0.018 80);
+  cursor: pointer;
+  font-weight: 900;
+  min-height: 42px;
+  padding: 0 16px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 980px) {
+  .admin-board {
+    grid-template-columns: 1fr;
+  }
+
+  .listing-form {
+    max-height: none;
+    position: static;
+  }
+}
+
+@media (max-width: 560px) {
+  .admin-header,
+  .section-bar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .field-grid {
+    grid-template-columns: 1fr;
+  }
+}
