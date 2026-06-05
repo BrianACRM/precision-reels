@@ -163,7 +163,7 @@ a {
 
 .listing-form {
   display: grid;
-  gap: 12px;
+  gap: 14px;
   max-height: calc(100vh - 126px);
   overflow: auto;
   padding: 18px;
@@ -194,7 +194,7 @@ a {
 
 .image-drop {
   align-items: center;
-  aspect-ratio: 1.42;
+  aspect-ratio: 1.72;
   background:
     linear-gradient(135deg, oklch(92% 0.012 88), oklch(78% 0.018 96));
   color: oklch(18% 0.012 145);
@@ -205,6 +205,7 @@ a {
   overflow: hidden;
   position: relative;
   text-transform: uppercase;
+  width: 100%;
 }
 
 .image-drop input {
@@ -229,6 +230,7 @@ a {
   inset: auto 10px 10px auto;
   padding: 8px 10px;
   position: absolute;
+  z-index: 2;
 }
 
 .field-grid {
@@ -330,15 +332,17 @@ select {
 
 .admin-grid {
   display: grid;
-  gap: 14px;
-  grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
+  gap: 12px;
+  grid-template-columns: 1fr;
 }
 
 .admin-card {
   background: var(--panel);
   border: 1px solid var(--line);
   cursor: pointer;
-  min-height: 100%;
+  display: grid;
+  grid-template-columns: 184px minmax(0, 1fr);
+  min-height: 168px;
   overflow: hidden;
   position: relative;
 }
@@ -363,18 +367,18 @@ select {
 }
 
 .card-image {
-  aspect-ratio: 1.08;
+  align-self: stretch;
   background: oklch(86% 0.012 88);
-  height: auto;
-  object-fit: contain;
-  padding: 10px;
+  height: 100%;
+  min-height: 168px;
+  object-fit: cover;
   width: 100%;
 }
 
 .card-copy {
   display: grid;
-  gap: 7px;
-  padding: 14px;
+  gap: 12px;
+  padding: 16px 54px 16px 16px;
 }
 
 .stock-pill {
@@ -386,22 +390,26 @@ select {
 }
 
 .card-copy h2 {
-  font-size: 1.05rem;
-  font-weight: 500;
-  line-height: 1.18;
+  font-size: 1.18rem;
+  font-weight: 700;
+  line-height: 1.2;
   margin: 0;
 }
 
 .card-fields {
   display: grid;
-  gap: 7px;
+  gap: 12px 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin: 0;
 }
 
 .card-fields div {
   display: grid;
-  gap: 4px;
-  grid-template-columns: 68px minmax(0, 1fr);
+  gap: 5px;
+}
+
+.card-fields div:nth-child(4) {
+  grid-column: 1 / -1;
 }
 
 .card-fields dt {
@@ -414,7 +422,7 @@ select {
 
 .card-fields dd {
   color: var(--paper);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   line-height: 1.35;
   margin: 0;
   min-width: 0;
@@ -536,6 +544,24 @@ select {
   }
 
   .field-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-card {
+    grid-template-columns: 1fr;
+  }
+
+  .card-image {
+    aspect-ratio: 1.35;
+    height: auto;
+    min-height: 0;
+  }
+
+  .card-copy {
+    padding: 14px;
+  }
+
+  .card-fields {
     grid-template-columns: 1fr;
   }
 }
