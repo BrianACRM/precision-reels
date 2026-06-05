@@ -100,7 +100,7 @@ with check (public.is_admin());
 -- Storage setup:
 -- 1. Create a public bucket named listing-images in Supabase Storage.
 -- 2. Keep signups disabled in Authentication settings.
--- 3. Create one auth user for Brandon.
+-- 3. Create one Precision Reels admin auth user.
 -- 4. Add that auth user to admin_profiles:
 -- insert into public.admin_profiles (user_id, email)
 -- values ('AUTH_USER_UUID_HERE', 'brandon@precisionreels.com');

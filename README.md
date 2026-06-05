@@ -4,7 +4,7 @@ Standalone GitHub Pages site for Precision Reels used walk-behind greens mower i
 
 ## Pages
 
-- `index.html`: public inventory with expandable listing details and Brandon email inquiries.
+- `index.html`: public inventory with expandable listing details and Precision Reels email inquiries.
 - `contact.html`: contact page with mailto form.
 - `admin.html`: secure inventory admin once Supabase is configured.
 
@@ -14,8 +14,8 @@ Standalone GitHub Pages site for Precision Reels used walk-behind greens mower i
 2. In Supabase Storage, create a public bucket named `listing-images`.
 3. Run `supabase-schema.sql` in the Supabase SQL editor.
 4. Disable public signups in Authentication settings.
-5. Create Brandon's auth user with `brandon@precisionreels.com`.
-6. Insert Brandon's auth user UUID into `admin_profiles`:
+5. Create the Precision Reels admin auth user with `brandon@precisionreels.com`.
+6. Insert the admin auth user UUID into `admin_profiles`:
 
 ```sql
 insert into public.admin_profiles (user_id, email)

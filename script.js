@@ -141,7 +141,7 @@ function openProduct(product) {
   detailMessage.value = `I am interested in ${title}${product.stock_number ? `, stock ${product.stock_number}` : ""}.`;
   emailAction.href = inquiryHref(product);
   detailSpecs.innerHTML = [
-    ["Stock #", product.stock_number || "Contact Brandon"],
+    ["Stock #", product.stock_number || "Contact Precision Reels"],
     ["Status", product.status || "Available"],
     ["Year", product.year],
     ["Model", product.model],
