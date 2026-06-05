@@ -159,6 +159,20 @@ img {
   z-index: 2;
 }
 
+.inventory-grid.is-loading {
+  display: block;
+}
+
+.inventory-status {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  margin: 0;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 .inventory-card {
   background: var(--deck);
   border: 1px solid oklch(97% 0.016 86 / 14%);
@@ -292,7 +306,7 @@ img {
 .contact-logo {
   height: auto;
   margin: 0 auto 18px;
-  max-width: min(520px, 86vw);
+  max-width: min(430px, 82vw);
 }
 
 .contact-header p {
@@ -306,7 +320,7 @@ img {
 
 .contact-header h1 {
   color: var(--strong);
-  font-size: clamp(1.65rem, 7vw, 3.15rem);
+  font-size: clamp(1.35rem, 4vw, 2.1rem);
   font-weight: 700;
   letter-spacing: 0;
   line-height: 1.04;
@@ -604,7 +618,7 @@ dd {
   }
 
   .contact-header h1 {
-    font-size: 1.85rem;
+    font-size: 1.35rem;
   }
 
   .contact-form {

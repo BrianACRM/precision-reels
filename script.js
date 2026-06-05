@@ -98,6 +98,7 @@ function publicImageUrl(path) {
 function renderInventory(items) {
   if (!inventoryGrid) return;
 
+  inventoryGrid.classList.remove("is-loading");
   inventoryGrid.innerHTML = items
     .map((item, index) => {
       const image = item.images?.[0] || "./assets/pgm22.png";

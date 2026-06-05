@@ -49,46 +49,8 @@
         <h1 id="inventoryTitle">Inventory: Click into any mower for details</h1>
       </section>
 
-      <section class="inventory-grid" aria-label="Mower inventory">
-        <article class="inventory-card" tabindex="0" data-product="greens">
-          <div class="photo-box">
-            <img src="./assets/pgm22-field-1.jpg" alt="Jacobsen PGM22 walk-behind reel mower on turf" />
-          </div>
-          <h2>2017 Jacobsen PGM22 Walk Reel</h2>
-          <p class="price">$4,850.00</p>
-          <p class="card-note">22 inch walk-behind reel mower example. Pickup or freight quote confirmed with seller.</p>
-          <button type="button">Inquire to buy</button>
-        </article>
-
-        <article class="inventory-card" tabindex="0" data-product="eclipse">
-          <div class="photo-box">
-            <img src="./assets/eclipse-2-field.jpg" alt="Jacobsen Eclipse 2 walk-behind reel mower on grass" />
-          </div>
-          <h2>2020 Jacobsen Eclipse 2</h2>
-          <p class="price">$3,950.00</p>
-          <p class="card-note">Battery walk mower example with room for hours, notes, and accessories.</p>
-          <button type="button">Inquire to buy</button>
-        </article>
-
-        <article class="inventory-card" tabindex="0" data-product="pgm">
-          <div class="photo-box">
-            <img src="./assets/pgm22-field-2.jpg" alt="Jacobsen PGM22 walk reel mower close view" />
-          </div>
-          <h2>2019 Jacobsen PGM 22 Walk Reel</h2>
-          <p class="price">$3,650.00</p>
-          <p class="card-note">Walk-behind reel mower example with room for blade count and accessories.</p>
-          <button type="button">Inquire to buy</button>
-        </article>
-
-        <article class="inventory-card" tabindex="0" data-product="greens2">
-          <div class="photo-box">
-            <img src="./assets/pgm22.png" alt="Jacobsen PGM22 walk-behind reel mower studio image" />
-          </div>
-          <h2>2018 Jacobsen PGM22 Walk Reel</h2>
-          <p class="price">$5,250.00</p>
-          <p class="card-note">Placeholder listing for seller-uploaded photos and condition notes.</p>
-          <button type="button">Inquire to buy</button>
-        </article>
+      <section class="inventory-grid is-loading" aria-label="Mower inventory">
+        <p class="inventory-status">Loading inventory...</p>
       </section>
 
       <section class="detail-panel" id="details" aria-live="polite">
@@ -141,7 +103,9 @@
     <script src="./script.js"></script>
     <script>
       if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("./service-worker.js").catch(() => {});
+        navigator.serviceWorker.getRegistrations().then((registrations) => {
+          registrations.forEach((registration) => registration.unregister());
+        });
       }
     </script>
   </body>
