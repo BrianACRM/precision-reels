@@ -1,4 +1,4 @@
-const CACHE_NAME = "precision-reels-v1";
+const CACHE_NAME = "precision-reels-v2";
 const APP_SHELL = [
   "/",
   "/index.html",

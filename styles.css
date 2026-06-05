@@ -310,11 +310,8 @@ img {
 }
 
 .contact-layout {
-  display: grid;
-  gap: clamp(22px, 4vw, 54px);
-  grid-template-columns: minmax(260px, 0.55fr) minmax(320px, 0.8fr);
   margin: 0 auto;
-  max-width: 1060px;
+  max-width: 720px;
 }
 
 .contact-card,
@@ -330,7 +327,7 @@ img {
   color: var(--strong);
   font-size: 1.3rem;
   font-weight: 500;
-  margin: 0 0 14px;
+  margin: 0;
   text-transform: uppercase;
 }
 
@@ -350,6 +347,13 @@ img {
 .contact-form {
   display: grid;
   gap: 12px;
+}
+
+.form-context {
+  color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.5;
+  margin: 0 0 6px;
 }
 
 .contact-form label {
