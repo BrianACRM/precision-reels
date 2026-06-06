@@ -154,15 +154,42 @@ a {
 }
 
 .account-panel {
-  align-items: end;
   background: oklch(15% 0.01 145 / 90%);
   border: 1px solid var(--line);
   box-shadow: 0 22px 70px oklch(6% 0.025 145 / 24%);
-  display: grid;
+  margin-top: 22px;
+  padding: 0;
+}
+
+.account-panel summary {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
   gap: 14px;
-  grid-template-columns: minmax(170px, 0.55fr) minmax(0, 1.45fr) minmax(140px, auto);
-  margin-bottom: 22px;
-  padding: 16px;
+  justify-content: space-between;
+  list-style: none;
+  min-height: 54px;
+  padding: 14px 16px;
+}
+
+.account-panel summary::-webkit-details-marker {
+  display: none;
+}
+
+.account-panel summary::after {
+  color: var(--orange);
+  content: "+";
+  font-size: 1.4rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.account-panel[open] summary {
+  border-bottom: 1px solid var(--line);
+}
+
+.account-panel[open] summary::after {
+  content: "-";
 }
 
 .account-panel span {
@@ -177,7 +204,7 @@ a {
 
 .account-panel strong {
   display: block;
-  font-size: 1.15rem;
+  font-size: 1rem;
   font-weight: 500;
   text-transform: uppercase;
 }
@@ -186,6 +213,7 @@ a {
   display: grid;
   gap: 10px;
   grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+  padding: 16px 16px 10px;
 }
 
 .password-form button {
@@ -211,6 +239,7 @@ a {
   line-height: 1.35;
   margin: 0;
   min-height: 20px;
+  padding: 0 16px 16px;
 }
 
 .password-message.is-error {
@@ -702,7 +731,6 @@ select option {
 }
 
 @media (max-width: 980px) {
-  .account-panel,
   .password-form {
     grid-template-columns: 1fr;
   }
