@@ -6,8 +6,10 @@
     <title>Mower Inventory Admin</title>
     <meta name="robots" content="noindex, nofollow" />
     <meta name="description" content="Precision Reels secure listing dashboard." />
+    <meta name="theme-color" content="#101812" />
     <link rel="preconnect" href="https://ddomhyyhixovprojozvy.supabase.co" crossorigin />
-    <link rel="stylesheet" href="./admin.css?v=admin-make-1" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="stylesheet" href="./admin.css?v=admin-form-order-1" />
   </head>
   <body>
     <main class="login-shell" id="loginShell" hidden>
@@ -49,17 +51,9 @@
               <option value="Jacobsen">Jacobsen</option>
               <option value="Toro">Toro</option>
               <option value="John Deere">John Deere</option>
-              <option value="Rolux">Rolux</option>
               <option value="Other">Other</option>
             </select>
           </label>
-
-          <label class="image-drop">
-            <input id="imageInput" type="file" accept="image/*" multiple />
-            <img id="imagePreview" alt="" />
-            <span id="imagePrompt">Add photos</span>
-          </label>
-          <div class="image-strip" id="imageStrip" aria-label="Selected image previews"></div>
 
           <label>
             Model
@@ -85,6 +79,13 @@
             Stock #
             <input name="stock" type="text" placeholder="PR-017" />
           </label>
+
+          <label class="image-drop">
+            <input id="imageInput" type="file" accept="image/*" multiple />
+            <img id="imagePreview" alt="" />
+            <span id="imagePrompt">Add photos</span>
+          </label>
+          <div class="image-strip" id="imageStrip" aria-label="Selected image previews"></div>
 
           <div class="form-actions">
             <button id="submitListingButton" type="submit">Add listing</button>
@@ -134,6 +135,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="./supabase-config.js"></script>
     <script src="./supabase-client.js"></script>
-    <script src="./admin.js?v=admin-make-1"></script>
+    <script src="./admin.js?v=admin-form-order-1"></script>
+    <script src="./pwa.js?v=pwa-1"></script>
   </body>
 </html>

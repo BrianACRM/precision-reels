@@ -280,6 +280,11 @@ select {
   padding-right: 38px;
 }
 
+select option {
+  background: oklch(17% 0.01 145);
+  color: oklch(94% 0.012 88);
+}
+
 .make-field select {
   border-color: oklch(68% 0.18 55 / 58%);
   color: var(--paper);
