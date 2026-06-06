@@ -172,7 +172,7 @@ img {
 .inventory-grid {
   display: grid;
   gap: clamp(20px, 3vw, 38px);
-  grid-template-columns: repeat(auto-fit, minmax(245px, 260px));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 300px));
   justify-content: center;
   margin: 0 auto;
   max-width: 1240px;
