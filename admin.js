@@ -7,6 +7,9 @@ const adminShell = document.querySelector("#adminShell");
 const loginForm = document.querySelector("#loginForm");
 const loginMessage = document.querySelector("#loginMessage");
 const logoutButton = document.querySelector("#logoutButton");
+const passwordForm = document.querySelector("#passwordForm");
+const passwordButton = document.querySelector("#passwordButton");
+const passwordMessage = document.querySelector("#passwordMessage");
 const form = document.querySelector("#listingForm");
 const grid = document.querySelector("#adminGrid");
 const template = document.querySelector("#listingTemplate");
@@ -84,6 +87,48 @@ logoutButton?.addEventListener("click", async () => {
   await client?.auth.signOut();
   resetEditMode();
   setAuthState(false);
+});
+
+passwordForm?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  if (!window.PRECISION_SUPABASE_READY) return;
+
+  const data = new FormData(passwordForm);
+  const password = String(data.get("password") || "");
+  const confirmPassword = String(data.get("confirmPassword") || "");
+
+  passwordMessage.textContent = "";
+  passwordMessage.className = "password-message";
+
+  if (password.length < 10) {
+    passwordMessage.textContent = "Use at least 10 characters.";
+    passwordMessage.classList.add("is-error");
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    passwordMessage.textContent = "Passwords do not match.";
+    passwordMessage.classList.add("is-error");
+    return;
+  }
+
+  passwordButton.disabled = true;
+  passwordButton.textContent = "Updating...";
+
+  const { error } = await client.auth.updateUser({ password });
+
+  passwordButton.disabled = false;
+  passwordButton.textContent = "Update password";
+
+  if (error) {
+    passwordMessage.textContent = error.message;
+    passwordMessage.classList.add("is-error");
+    return;
+  }
+
+  passwordForm.reset();
+  passwordMessage.textContent = "Password updated.";
+  passwordMessage.classList.add("is-success");
 });
 
 async function loadListings() {

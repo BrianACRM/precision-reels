@@ -9,7 +9,7 @@
     <meta name="theme-color" content="#101812" />
     <link rel="preconnect" href="https://ddomhyyhixovprojozvy.supabase.co" crossorigin />
     <link rel="manifest" href="./manifest.webmanifest" />
-    <link rel="stylesheet" href="./admin.css?v=no-focus-zoom-1" />
+    <link rel="stylesheet" href="./admin.css?v=password-panel-1" />
   </head>
   <body>
     <main class="login-shell" id="loginShell" hidden>
@@ -36,6 +36,25 @@
           <button id="logoutButton" type="button">Logout</button>
         </nav>
       </header>
+
+      <section class="account-panel" aria-label="Admin account settings">
+        <div>
+          <span>Admin account</span>
+          <strong>Set password</strong>
+        </div>
+        <form class="password-form" id="passwordForm">
+          <label>
+            New password
+            <input name="password" type="password" autocomplete="new-password" minlength="10" placeholder="New password" required />
+          </label>
+          <label>
+            Confirm password
+            <input name="confirmPassword" type="password" autocomplete="new-password" minlength="10" placeholder="Confirm password" required />
+          </label>
+          <button id="passwordButton" type="submit">Update password</button>
+        </form>
+        <p class="password-message" id="passwordMessage" aria-live="polite"></p>
+      </section>
 
       <section class="admin-board">
         <form class="listing-form" id="listingForm">
@@ -135,7 +154,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="./supabase-config.js"></script>
     <script src="./supabase-client.js"></script>
-    <script src="./admin.js?v=no-focus-zoom-1"></script>
+    <script src="./admin.js?v=password-panel-1"></script>
     <script src="./pwa.js?v=pwa-1"></script>
   </body>
 </html>
