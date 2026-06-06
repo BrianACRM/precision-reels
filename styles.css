@@ -753,6 +753,12 @@ dd {
     max-width: 420px;
   }
 
+  .brand-links a:nth-child(3):last-child {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc((100% - 10px) / 2);
+  }
+
   .inventory-grid {
     grid-template-columns: minmax(0, 1fr);
     justify-content: stretch;
@@ -838,6 +844,10 @@ dd {
   .brand-links {
     gap: 8px;
     margin-top: 14px;
+  }
+
+  .brand-links a:nth-child(3):last-child {
+    width: calc((100% - 8px) / 2);
   }
 
   .brand-links a {
