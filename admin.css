@@ -14,6 +14,11 @@
   box-sizing: border-box;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 body {
   margin: 0;
   background:
@@ -259,6 +264,7 @@ select {
   background: var(--panel);
   border: 1px solid var(--line);
   color: var(--paper);
+  font-size: 16px;
   min-height: 44px;
   min-width: 0;
   padding: 10px 11px;

@@ -1,4 +1,4 @@
-const CACHE_NAME = "precision-reels-pwa-v1";
+const CACHE_NAME = "precision-reels-pwa-v2";
 const PRECACHE_URLS = [
   "/",
   "/index.html",
